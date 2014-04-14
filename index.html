@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html data-ng-app='main'>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+
+
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href='./content/jquery.gridster.css' />
+    <link rel="stylesheet" type="text/css" href='./content/main.css' />
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.js"></script>
+    <script type="text/javascript" src="./script/vendor/jquery.gridster.js"></script>
+
+
+    <script type="text/javascript" src="./script/bw/entities/build.js"></script>
+    <script type="text/javascript" src="./script/bw/infrastructure/buildService.js"></script>
+    <script type="text/javascript" src="./script/bw/infrastructure/grid/uiGrid.js"></script>
+    <script type="text/javascript" src="./script/bw/infrastructure/grid/gridRenderService.js"></script>
+    <script type="text/javascript" src="./script/bw/modules/shared/services/buildService.js"></script>
+    <script type="text/javascript" src="./script/bw/modules/shared/filters/buildName.js"></script>
+    <script type="text/javascript" src="./script/bw/modules/shared/filters/orderBuildName.js"></script>
+    <script type="text/javascript" src="./script/bw/modules/shared/directives/settings.js"></script>
+    <script type="text/javascript" src="./script/bw/modules/shared/directives/screenGrid.js"></script>
+    <script type="text/javascript" src="./script/bw/modules/main/controllers/main.js"></script>
+
+    <script type="text/javascript" src="./script/app.js"></script>
+</head>
+<body data-ng-controller="MainCtrl as ctrl">
+
+
+<settings total-columns="ctrl.totalColumns"
+          builds="ctrl.builds"> </settings>
+
+
+<screen-grid
+        total-columns="ctrl.totalColumns"
+        builds="ctrl.builds"
+        margin='5'
+        max-item-heigth='300' ></screen-grid>
+
+
+</body>
+</html>

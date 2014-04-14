@@ -1,0 +1,59 @@
+
+<span class="glyphicon glyphicon-cog settings-topper" data-ng-click="visible = true"></span>
+
+<div class="settings" data-ng-class="{'show' : visible, 'hide' : !visible}">
+    <span class="glyphicon glyphicon-remove form-control-feedback"
+          data-ng-click="visible = false"></span>
+
+
+    <div class="form-group col-md-12">
+        <label for='totalColumms'>Columns</label>
+        <input id='totalColumms' type="number" min='1' max='9' class="form-control" data-ng-model='totalColumns'>
+    </div>
+    <div class="form-group col-md-12">
+        <div>
+            <label>Builds</label>
+        </div>
+
+        <div class='col-md-12 build-settings'>
+
+            <div class="form-group has-feedback">
+                <input type='text' class="form-control" placeholder='Filter' data-ng-model='queryBuildName' />
+
+          <span class="glyphicon glyphicon-remove form-control-feedback"
+                data-ng-class="{'show' : queryBuildName.length > 0, 'hide' : queryBuildName.length <= 0}"
+                data-ng-click="queryBuildName = ''"></span>
+            </div>
+
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" data-ng-model='selectAll'  data-ng-change='selectAllChange()'> Select All
+                </label>
+            </div>
+
+            <button type="button" class="btn btn-default active build-list-header col-md-12"
+                    data-ng-click='orderBuildChange()'>Name {{reverseOrder ? '▼' : '▲'}}</button>
+
+            <div class='build-list'>
+
+                <div class="checkbox trancate-text"
+                     data-ng-repeat="build in builds | buildName :queryBuildName | orderByName:reverseOrder" >
+                    <label>
+                        <input type="checkbox" data-ng-model='build.isSelected' > {{build.name}}
+                    </label>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="form-group col-md-12">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"> Track Broken
+            </label>
+        </div>
+    </div>
+
+</div>
