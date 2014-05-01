@@ -8,12 +8,12 @@ var BW;
         (function (Main) {
             (function (Directives) {
                 var ScreenGrid = (function () {
-                    function ScreenGrid() {
+                    function ScreenGrid(_grid, _gridRenderService) {
+                        this._grid = _grid;
+                        this._gridRenderService = _gridRenderService;
                     }
-                    ScreenGrid.prototype.execute = function (uiGrid, greedRenderService) {
+                    ScreenGrid.prototype.execute = function () {
                         var self = this;
-                        self._grid = uiGrid;
-                        self._gridRenderService = greedRenderService;
 
                         return {
                             restrict: 'E',

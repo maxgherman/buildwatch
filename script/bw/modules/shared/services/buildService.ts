@@ -6,6 +6,10 @@
 module BW.Modules.Shared.Services {
 
 
+    interface IRootScope {
+        $apply(action : () => void);
+    }
+
     export class BuildService {
 
         public execute() {
@@ -14,52 +18,63 @@ module BW.Modules.Shared.Services {
 
             return {
                $get : ['$rootScope', 'buildService',  body]
-            };
+        };
 
         }
 
-        private body($rootScope, buildService : BW.IBuildService) {
-            return <BW.IBuildService> {
-                setStatusNotificationHandler : (value : BW.IStatusNotification) => {
+        private body($rootScope : IRootScope, buildService : BW.IBuildService) : BW.IBuildServiceExternal {
 
-                    buildService.setStatusNotificationHandler((builds : Array<BW.IBuild>, error : Error) => {
+            var self = this;
 
-                        $rootScope.$apply(() => {
-                            value(builds, error);
-                        });
+            return  <BW.IBuildServiceExternal>{
 
-                    });
+                statusNotification(onData : (states : Array<BW.IBuildDefinitionInfo>) => void,
+                                   onError : (error : Error) => void) : void {
+
+                    buildService.statusNotification()
+                    .subscribe(
+                        states => {
+
+                           self.applyScope($rootScope, states, onData);
+                        },
+                        error => {
+
+                            self.applyScope($rootScope, error, onError);
+                        }
+                    );
                 },
 
-                start : buildService.start.bind(buildService)
+                listNotification(onData : (states : Array<BW.IBuildDefinitionInfo>) => void,
+                                 onError : (error : Error) => void) : void {
+
+                    buildService.listNotification()
+                        .subscribe(
+                        list => {
+
+                            self.applyScope($rootScope, list, onData);
+                        },
+                        error => {
+
+                            self.applyScope($rootScope, error, onError);
+                        }
+                    );
+
+                },
+
+                filterListNotifications(value : Array<BW.IBuildDefinitionInfo>) : void {
+
+                    buildService.setListNotificationFilter(value);
+                }
             }
+        }
+
+        private applyScope<R>($rootScope : IRootScope, data : R, action : (data : R) => void) {
+
+            $rootScope.$apply(() => {
+                action(data);
+            });
+
         }
     }
 
-
-    export class BuildService2 {
-
-        public execute() : ($rootScope, buildService : BW.IBuildService) => BW.IBuildService {
-
-            return  this.body.bind(this);
-
-        }
-
-        private body($rootScope, buildService : BW.IBuildService) {
-            return <BW.IBuildService> {
-                setStatusNotificationHandler : (value : BW.IStatusNotification) => {
-
-                    buildService.setStatusNotificationHandler((builds : Array<BW.IBuild>, error : Error) => {
-
-                        $rootScope.$apply(() => {
-                            value(builds, error);
-                        });
-
-                    });
-                },
-
-                start : buildService.start.bind(buildService)
-            }
-        }
-    }
 }

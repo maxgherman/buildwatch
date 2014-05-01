@@ -9,14 +9,11 @@ module BW.Modules.Main.Directives {
 
     export class ScreenGrid {
 
-        private _grid : BW.IUIGrid;
-        private _gridRenderService : BW.IGridRenderService;
+        constructor(private _grid : BW.IUIGrid, private _gridRenderService : BW.IGridRenderService) {}
 
-        public execute(uiGrid : BW.IUIGrid, greedRenderService : BW.IGridRenderService) {
+        public execute() {
 
             var self = this;
-            self._grid = uiGrid;
-            self._gridRenderService = greedRenderService;
 
             return {
                 restrict: 'E',

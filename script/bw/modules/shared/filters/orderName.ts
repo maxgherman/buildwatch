@@ -1,17 +1,16 @@
 
-
 /// <reference path='../../../../../d.ts/bw.d' />
-
 
 'use strict';
 
 
  module BW.Modules.Shared.Filters {
 
-     export class OrderByNameFilter {
-         public execute(data : Array<IBuild>, reverse : boolean) : Array<BW.IBuild>{
 
-             var result = data.map(function(item) {
+     export class OrderByNameFilter {
+         public execute(data : Array<BW.IBuildDefinitionInfo>, reverse : boolean) : Array<BW.IBuildDefinitionInfo>{
+
+             var result = data.map(item => {
                  return item;
              });
 

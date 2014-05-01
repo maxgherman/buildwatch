@@ -3,27 +3,49 @@
 
 'use strict';
 
-
 module BW.Modules.Main.Controllers {
 
     export class MainController {
         public totalColumns : number = 3;
         public builds : Array<IBuild> = null;
+        public definitions : Array<IBuildDefinitionInfo> = null;
 
-        constructor(buildServiceWrapper : BW.IBuildService) {
+        constructor(private _buildServiceWrapper : BW.IBuildServiceExternal, private listHelperService : BW.IListHelperService) {
 
             this.builds = <Array<IBuild>>[];
+            this.definitions = <Array<IBuildDefinition>>[];
 
-            buildServiceWrapper.setStatusNotificationHandler(this.statusNotificationHandler.bind(this));
-            buildServiceWrapper.start();
+            _buildServiceWrapper.statusNotification(this.statusNotification.bind(this),
+                                                   this.statusNotificationError.bind(this));
+
+            _buildServiceWrapper.listNotification(this.listNotification.bind(this),
+                                                 this.listNotificationError.bind(this));
 
         }
 
-        private statusNotificationHandler(builds : Array<BW.IBuild>, error : Error) {
+        public submitFilter() {
+            this._buildServiceWrapper.filterListNotifications(this.definitions);
+        }
+
+        private statusNotification(builds : Array<IBuild>) {
 
             this.builds = builds;
+        }
+
+        private statusNotificationError(error : Error) {
 
         }
+
+        private listNotification(definitions : Array<IBuildDefinitionInfo>) {
+
+            this.definitions = definitions;
+        }
+
+        private listNotificationError(error : Error) {
+
+        }
+
+
 
     }
 

@@ -41,4 +41,4 @@ var BW;
     })(BW.Modules || (BW.Modules = {}));
     var Modules = BW.Modules;
 })(BW || (BW = {}));
-//# sourceMappingURL=orderBuildName.js.map
+//# sourceMappingURL=orderName.js.map

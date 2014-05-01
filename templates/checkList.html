@@ -1,0 +1,26 @@
+
+<div class="form-group col-md-12 check-list">
+    <div class="form-group has-feedback">
+        <input type='text' class="form-control" placeholder='Filter' data-ng-model='filteredItemName' />
+
+        <span class="glyphicon glyphicon-remove form-control-feedback" data-ng-click="filteredItemName = ''"></span>
+    </div>
+
+    <div class="checkbox">
+        <label>    <input type="checkbox" data-ng-model='selectAll' data-ng-change='selectAllChange()' /> Select All   </label>
+    </div>
+
+    <button type="button" class="btn btn-default active list-header"
+            data-ng-click='orderBuildChange()'>Name {{reverseOrder ? '▼' : '▲'}}</button>
+
+    <div class='list'>
+
+        <div class="checkbox trancate-text" data-ng-repeat="item in items | itemName : filteredItemName | orderByName:reverseOrder" >
+            <label>
+                <input type="checkbox" data-ng-model="item[checkName]" > {{item[displayName]}}
+            </label>
+        </div>
+
+    </div>
+
+</div>

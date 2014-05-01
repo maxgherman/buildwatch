@@ -5,9 +5,13 @@
 
 module BW.Modules.Shared.Filters {
 
-    export class BuildNameFilter {
+    export interface IItemName {
+        execute : BW.INameFilter;
+    }
 
-        public execute(data : Array<IBuild>,  name : string) : Array<BW.IBuild> {
+    export class ItemName implements IItemName {
+
+        public execute(data : Array<BW.IBuildDefinitionInfo>,  name : string) : Array<BW.IBuildDefinitionInfo> {
 
             return data.filter(item => {
 

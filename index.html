@@ -5,23 +5,36 @@
     <title></title>
 
 
-    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href='./content/jquery.gridster.css' />
+    <link rel="stylesheet" type="text/css" href='./content/navbar.css' />
     <link rel="stylesheet" type="text/css" href='./content/main.css' />
 
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.js"></script>
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.js"></script>
     <script type="text/javascript" src="./script/vendor/jquery.gridster.js"></script>
+
+    <script type="text/javascript" src="./script/vendor/rx.lite.js"></script>
 
 
     <script type="text/javascript" src="./script/bw/entities/build.js"></script>
+    <script type="text/javascript" src="./script/bw/infrastructure/listHelperService.js"></script>
     <script type="text/javascript" src="./script/bw/infrastructure/buildService.js"></script>
     <script type="text/javascript" src="./script/bw/infrastructure/grid/uiGrid.js"></script>
     <script type="text/javascript" src="./script/bw/infrastructure/grid/gridRenderService.js"></script>
     <script type="text/javascript" src="./script/bw/modules/shared/services/buildService.js"></script>
-    <script type="text/javascript" src="./script/bw/modules/shared/filters/buildName.js"></script>
-    <script type="text/javascript" src="./script/bw/modules/shared/filters/orderBuildName.js"></script>
-    <script type="text/javascript" src="./script/bw/modules/shared/directives/settings.js"></script>
+    <script type="text/javascript" src="./script/bw/modules/shared/filters/itemName.js"></script>
+    <script type="text/javascript" src="./script/bw/modules/shared/filters/orderName.js"></script>
+
+
+
+    <script type="text/javascript" src="./script/bw/modules/shared/directives/navtab/navtabs.js"></script>
+    <script type="text/javascript" src="./script/bw/modules/shared/directives/navtab/tab.js"></script>
+
+    <script type="text/javascript" src="./script/bw/modules/shared/directives/checkList.js"></script>
+
     <script type="text/javascript" src="./script/bw/modules/shared/directives/screenGrid.js"></script>
     <script type="text/javascript" src="./script/bw/modules/main/controllers/main.js"></script>
 
@@ -30,15 +43,54 @@
 <body data-ng-controller="MainCtrl as ctrl">
 
 
-<settings total-columns="ctrl.totalColumns"
-          builds="ctrl.builds"> </settings>
+<navtabs>
+
+    <tab header-icon="glyphicon glyphicon-list-alt" name="DEFINITIONS" is-active="true">
+
+        <div class="apply col-md-12">
+            <button type="button" class="btn btn-default active list-header"
+                data-ng-click='ctrl.submitFilter()'>Apply</button>
+        </div>
+
+        <check-list check-name="isSelected"
+                    display-name="name"
+                    items="ctrl.definitions"></check-list>
 
 
-<screen-grid
-        total-columns="ctrl.totalColumns"
-        builds="ctrl.builds"
-        margin='5'
-        max-item-heigth='300' ></screen-grid>
+    </tab>
+    <tab header-icon="glyphicon glyphicon-tasks" name="BUILDS" >
+
+        <div class="form-group col-md-12">
+            <label for='totalColumms'>Columns</label>
+            <input id='totalColumms' type="number" min='1' max='9' class="form-control" data-ng-model='totalColumns'>
+        </div>
+
+
+        <check-list check-name="isSelected"
+                    display-name="name"
+                    items="ctrl.builds"></check-list>
+
+    </tab>
+    <tab header-icon="glyphicon glyphicon-record" name="BUILD DETAILS" >
+
+        <div class="form-group col-md-12">
+
+            Test
+        </div>
+
+    </tab>
+
+</navtabs>
+
+<!--<settings total-columns="ctrl.totalColumns"-->
+          <!--builds="ctrl.builds"> </settings>-->
+
+
+<!--<screen-grid-->
+        <!--total-columns="ctrl.totalColumns"-->
+        <!--builds="ctrl.builds"-->
+        <!--margin='5'-->
+        <!--max-item-heigth='300' ></screen-grid>-->
 
 
 </body>

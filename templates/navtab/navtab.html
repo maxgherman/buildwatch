@@ -1,0 +1,27 @@
+<nav class="navbar navbar-inverse vertical" role="navigation"
+     data-ng-class="{'collapsed' : isCollapsed}">
+
+    <div class="navbar-header">
+
+        <div class="navbar-items">
+            <div>
+                <button type="button" class="navbar-toggle" data-ng-click="changeNavState()" >
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+            </div>
+            <div data-ng-repeat="tab in tabs" data-ng-class="{'active' : isActiveTab($index)}" >
+                <a hreaf="#" data-ng-click="activateTab($index)" data-index="$index">
+                    <span data-ng-class="tab.header"></span>
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="context"  data-ng-transclude></div>
+
+</nav>

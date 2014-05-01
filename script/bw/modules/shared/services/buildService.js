@@ -18,43 +18,37 @@ var BW;
                     };
 
                     BuildService.prototype.body = function ($rootScope, buildService) {
+                        var self = this;
+
                         return {
-                            setStatusNotificationHandler: function (value) {
-                                buildService.setStatusNotificationHandler(function (builds, error) {
-                                    $rootScope.$apply(function () {
-                                        value(builds, error);
-                                    });
+                            statusNotification: function (onData, onError) {
+                                buildService.statusNotification().subscribe(function (states) {
+                                    self.applyScope($rootScope, states, onData);
+                                }, function (error) {
+                                    self.applyScope($rootScope, error, onError);
                                 });
                             },
-                            start: buildService.start.bind(buildService)
+                            listNotification: function (onData, onError) {
+                                buildService.listNotification().subscribe(function (list) {
+                                    self.applyScope($rootScope, list, onData);
+                                }, function (error) {
+                                    self.applyScope($rootScope, error, onError);
+                                });
+                            },
+                            filterListNotifications: function (value) {
+                                buildService.setListNotificationFilter(value);
+                            }
                         };
+                    };
+
+                    BuildService.prototype.applyScope = function ($rootScope, data, action) {
+                        $rootScope.$apply(function () {
+                            action(data);
+                        });
                     };
                     return BuildService;
                 })();
                 Services.BuildService = BuildService;
-
-                var BuildService2 = (function () {
-                    function BuildService2() {
-                    }
-                    BuildService2.prototype.execute = function () {
-                        return this.body.bind(this);
-                    };
-
-                    BuildService2.prototype.body = function ($rootScope, buildService) {
-                        return {
-                            setStatusNotificationHandler: function (value) {
-                                buildService.setStatusNotificationHandler(function (builds, error) {
-                                    $rootScope.$apply(function () {
-                                        value(builds, error);
-                                    });
-                                });
-                            },
-                            start: buildService.start.bind(buildService)
-                        };
-                    };
-                    return BuildService2;
-                })();
-                Services.BuildService2 = BuildService2;
             })(Shared.Services || (Shared.Services = {}));
             var Services = Shared.Services;
         })(Modules.Shared || (Modules.Shared = {}));

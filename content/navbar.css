@@ -1,0 +1,146 @@
+
+.navbar {
+    z-index: 99;
+    border-radius: 0px;
+    opacity: 0.899;
+}
+
+
+.navbar.vertical {
+    height : 100%;
+    top: 0px;
+    right: 0px;
+    position: absolute;
+    width:380px;
+}
+
+.navbar.vertical.collapsed {
+    width:60px;
+}
+
+.navbar .navbar-header {
+    height: 100%;
+    background-color: rgb(32, 26, 26);
+    float: left;
+}
+
+.navbar .navbar-toggle {
+    float:inherit;
+    border-color: transparent;
+    border-radius: 0;
+
+    margin: 0;
+    padding: 10px;
+
+}
+.navbar .navbar-toggle .icon-bar {
+    width: 35px;
+    height: 5px;
+    background-color: rgba(430, 255, 255, 0.9);
+}
+
+.navbar .navbar-items {
+    height: 100%;
+}
+
+.navbar .navbar-items:first-child {
+    margin-top: -20px;
+}
+
+.navbar .navbar-items > * {
+    padding: 25px 0 25px 0;
+    text-align: center;
+    border-top: 1px solid rgba(183, 174, 174, 0.37);
+}
+
+.navbar .navbar-items >div>a {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 2.6em;
+    cursor: pointer;
+}
+
+.navbar .navbar-items > div.active >a {
+    color: rgba(255, 255, 255, 1);
+    background-color: inherit;
+}
+
+.navbar .navbar-items > div >a:hover {
+    color: rgba(255, 255, 255, 1);
+}
+
+.navbar .navbar-items .glyphicon {
+    width:36px;
+}
+
+.navbar .context {
+    float: left;
+    height: 100%;
+    color: #ffffff;
+    width: 83%;
+}
+
+.navbar input[type=checkbox] {
+    width : 15px;
+    height: 15px;
+    font-size: medium;
+}
+
+.navbar input.form-control {
+    border-radius: 0;
+}
+
+.navbar > .context > .item {
+    display: none;
+    width:100%;
+    height: 100%;
+}
+
+.navbar .context .item .check-list {
+    padding-top: 20px;
+    height: 100%;
+}
+
+.navbar .context .item .list-header {
+    width: 100%;
+}
+
+.navbar .context .item .list {
+    overflow: auto;
+    height: 75%;
+    min-height:50px;
+    padding : 0 0 0 5px;
+}
+
+.navbar .context .item .list .trancate-text {
+    width: 220px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.navbar > .context > .item > section[role='header'] {
+    text-align: center;
+    width:100%;
+}
+
+.navbar > .context > .item > section[role='body'] {
+    height:100%;
+}
+
+.navbar > .context > .item.active {
+    display: block;
+}
+
+
+.navbar .context .item .apply {
+    padding-top: 25px;
+}
+
+
+@media (min-width: 768px) {
+    .navbar .navbar-toggle {
+        display:block;
+    }
+}
+
+

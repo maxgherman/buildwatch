@@ -6,16 +6,35 @@ var BW;
         (function (Main) {
             (function (Controllers) {
                 var MainController = (function () {
-                    function MainController(buildServiceWrapper) {
+                    function MainController(_buildServiceWrapper, listHelperService) {
+                        this._buildServiceWrapper = _buildServiceWrapper;
+                        this.listHelperService = listHelperService;
                         this.totalColumns = 3;
                         this.builds = null;
+                        this.definitions = null;
                         this.builds = [];
+                        this.definitions = [];
 
-                        buildServiceWrapper.setStatusNotificationHandler(this.statusNotificationHandler.bind(this));
-                        buildServiceWrapper.start();
+                        _buildServiceWrapper.statusNotification(this.statusNotification.bind(this), this.statusNotificationError.bind(this));
+
+                        _buildServiceWrapper.listNotification(this.listNotification.bind(this), this.listNotificationError.bind(this));
                     }
-                    MainController.prototype.statusNotificationHandler = function (builds, error) {
+                    MainController.prototype.submitFilter = function () {
+                        this._buildServiceWrapper.filterListNotifications(this.definitions);
+                    };
+
+                    MainController.prototype.statusNotification = function (builds) {
                         this.builds = builds;
+                    };
+
+                    MainController.prototype.statusNotificationError = function (error) {
+                    };
+
+                    MainController.prototype.listNotification = function (definitions) {
+                        this.definitions = definitions;
+                    };
+
+                    MainController.prototype.listNotificationError = function (error) {
                     };
                     return MainController;
                 })();

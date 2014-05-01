@@ -1,4 +1,7 @@
 
+/// <reference path='rx.lite.d' />
+
+
 declare module BW {
 
     enum BuildStatus {
@@ -7,22 +10,47 @@ declare module BW {
         InProgress = 3
     }
 
-    interface IBuild {
+    interface IBuildDefinitionInfo {
         id : number;
         name : string;
-        isSelected : boolean;
+        isSelected? : boolean;
+    }
+
+    interface IBuildDefinition extends  IBuildDefinitionInfo {
+
+        url : string;
         status : BuildStatus;
     }
 
-    interface IStatusNotification {
-        (builds : Array<IBuild>, error : Error) : void;
+    interface IBuild extends  IBuildDefinitionInfo {
+
     }
+
+    interface IListHelperService {
+        update<R>(source : Array<R>,
+                  target : Array<R>,
+                  comparer : (item1 : R, item2 : R) => boolean,
+                  updateElement : (source : R, target : R) => void);
+
+        equals<R>(listA : Array<R>, listB : Array<R>, comparer : (a : R, b : R) => boolean) : boolean;
+    }
+
 
     interface IBuildService {
-        setStatusNotificationHandler(handler : IStatusNotification) : void;
-        start() : void;
+        statusNotification() : Rx.IObservable<Array<IBuildDefinition>>;
+        listNotification() : Rx.IObservable<Array<IBuildDefinitionInfo>>;
+        setListNotificationFilter(definitions : Array<BW.IBuildDefinitionInfo>) : void;
     }
 
+    interface IBuildServiceExternal {
+        statusNotification(onData : (states : Array<BW.IBuildDefinition>) => void,
+                           onError : (error : Error) => void) : void;
+
+        listNotification(onData : (states : Array<BW.IBuildDefinitionInfo>) => void,
+                           onError : (error : Error) => void) : void;
+
+        filterListNotifications(value : Array<BW.IBuildDefinitionInfo>) : void;
+    }
 
     interface IGreedRenderData {
 
@@ -51,7 +79,7 @@ declare module BW {
         updateWidget(build : BW.IBuild) : void;
     }
 
-    export interface IGridRenderService {
+    interface IGridRenderService {
         columns : number;
         builds : Array<BW.IBuild>;
         margin : number;
@@ -61,6 +89,16 @@ declare module BW {
         update(builds);
     }
 
+    interface ITab {
+        id : number;
+        name : string;
+        header : string;
+        isActive : boolean;
+    }
+
+    interface INameFilter {
+        (data:Array<BW.IBuildDefinitionInfo>, name:string) : Array<BW.IBuildDefinitionInfo>;
+    }
 }
 
 

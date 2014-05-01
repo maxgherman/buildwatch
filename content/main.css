@@ -1,13 +1,32 @@
+html {
+    height: 100%;
+    padding : 0;
+    margin : 0;
+}
+
+
 body {
     background : #668DCD;
     padding : 0;
     margin : 0;
     overflow: hidden;
+    height: 100%;
 }
 
 .has-feedback .form-control-feedback {
     top:0px;
+    color:#000000;
+    font-weight: inherit;
 }
+
+.list-header {
+    border-radius:0px;
+    margin-bottom: 10px;
+}
+
+
+
+
 
 /* ------------  GRID ----------------*/
 .dashboard {
@@ -66,25 +85,12 @@ body {
     padding-top:5px;
 }
 
-.build-list-header {
-    border-radius:0px;
-}
 
-.build-list {
-    overflow: auto;
-    max-height: 400px;
-    min-height:50px;
-    padding : 0 0 0 10px;
-}
+
+
 
 /*----------- Text ---------------*/
 
-.trancate-text {
-    width: 250px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
 
 
 div.shine
