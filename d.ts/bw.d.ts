@@ -27,12 +27,23 @@ declare module BW {
     }
 
     interface IListHelperService {
-        update<R>(source : Array<R>,
-                  target : Array<R>,
-                  comparer : (item1 : R, item2 : R) => boolean,
-                  updateElement : (source : R, target : R) => void);
 
-        equals<R>(listA : Array<R>, listB : Array<R>, comparer : (a : R, b : R) => boolean) : boolean;
+        update<R>(newList : Array<R>,
+                  oldList : Array<R>,
+                  comparer : (a : R, b : R) => boolean,
+                  update: (newEl : R, oldEl : R) => void) : Array<R>;
+
+        all<R>(list : Array<R>, predicate : (a : R) => boolean);
+    }
+
+    interface IBuildListHelperService {
+        all(list : Array<BW.IBuildDefinition>) : boolean;
+
+        updateDefinitionInfo(sourceList : Array<BW.IBuildDefinitionInfo>,
+               targetList : Array<BW.IBuildDefinitionInfo>) : Array<BW.IBuildDefinitionInfo>;
+
+        updateDefinition(sourceList : Array<BW.IBuildDefinition>,
+                             targetList : Array<BW.IBuildDefinition>) : Array<BW.IBuildDefinition>;
     }
 
 

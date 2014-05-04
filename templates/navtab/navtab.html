@@ -1,5 +1,5 @@
 <nav class="navbar navbar-inverse vertical" role="navigation"
-     data-ng-class="{'collapsed' : isCollapsed}">
+     data-ng-class="{collapsed : isCollapsed}">
 
     <div class="navbar-header">
 
@@ -14,7 +14,7 @@
 
             </div>
             <div data-ng-repeat="tab in tabs" data-ng-class="{'active' : isActiveTab($index)}" >
-                <a hreaf="#" data-ng-click="activateTab($index)" data-index="$index">
+                <a hreaf="#" data-ng-click="activateTab($index, true)" data-index="$index">
                     <span data-ng-class="tab.header"></span>
                 </a>
             </div>
@@ -22,6 +22,6 @@
         </div>
 
     </div>
-    <div class="context"  data-ng-transclude></div>
+    <div class="context" data-ng-class="{hide : isCollapsed}" data-ng-transclude></div>
 
 </nav>

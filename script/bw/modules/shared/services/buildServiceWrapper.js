@@ -6,10 +6,10 @@ var BW;
     (function (Modules) {
         (function (Shared) {
             (function (Services) {
-                var BuildService = (function () {
-                    function BuildService() {
+                var BuildServiceWrapper = (function () {
+                    function BuildServiceWrapper() {
                     }
-                    BuildService.prototype.execute = function () {
+                    BuildServiceWrapper.prototype.execute = function () {
                         var body = this.body.bind(this);
 
                         return {
@@ -17,7 +17,7 @@ var BW;
                         };
                     };
 
-                    BuildService.prototype.body = function ($rootScope, buildService) {
+                    BuildServiceWrapper.prototype.body = function ($rootScope, buildService) {
                         var self = this;
 
                         return {
@@ -41,14 +41,14 @@ var BW;
                         };
                     };
 
-                    BuildService.prototype.applyScope = function ($rootScope, data, action) {
+                    BuildServiceWrapper.prototype.applyScope = function ($rootScope, data, action) {
                         $rootScope.$apply(function () {
                             action(data);
                         });
                     };
-                    return BuildService;
+                    return BuildServiceWrapper;
                 })();
-                Services.BuildService = BuildService;
+                Services.BuildServiceWrapper = BuildServiceWrapper;
             })(Shared.Services || (Shared.Services = {}));
             var Services = Shared.Services;
         })(Modules.Shared || (Modules.Shared = {}));
@@ -56,4 +56,4 @@ var BW;
     })(BW.Modules || (BW.Modules = {}));
     var Modules = BW.Modules;
 })(BW || (BW = {}));
-//# sourceMappingURL=buildService.js.map
+//# sourceMappingURL=buildServiceWrapper.js.map

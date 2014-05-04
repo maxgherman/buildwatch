@@ -1,8 +1,7 @@
+/// <reference path='../../../../../../d.ts/bw.d.ts' />
+/// <reference path='../../../../../../d.ts/jquery.d' />
 
-/// <reference path='../../../../d.ts/bw.d' />
-/// <reference path='../../../../d.ts/jquery.d' />
-
-module BW.Infrastructure.Grid {
+module BW.Modules.Main.Directives.Grid {
 
     interface IGridComponent {
         remove_all_widgets() : void;

@@ -1,3 +1,4 @@
+/// <reference path='../../../../../../d.ts/angular.d' />
 /// <reference path='../../../../../../d.ts/bw.d' />
 'use strict';
 var BW;
@@ -31,12 +32,21 @@ var BW;
                             $scope.isCollapsed = !$scope.isCollapsed;
                         };
 
+                        $scope.openNav = function () {
+                            $scope.isCollapsed = false;
+                        };
+
                         $scope.isActiveTab = function (id) {
                             return $scope.activeTab.id === id;
                         };
 
-                        $scope.activateTab = function (id) {
+                        $scope.activateTab = function (id, openNav) {
+                            if (typeof openNav === "undefined") { openNav = false; }
                             $scope.activeTab = $scope.tabs[id];
+
+                            if (openNav) {
+                                $scope.openNav();
+                            }
                         };
 
                         this.addTab = function (tab) {

@@ -10,7 +10,7 @@ module BW.Modules.Shared.Services {
         $apply(action : () => void);
     }
 
-    export class BuildService {
+    export class BuildServiceWrapper {
 
         public execute() {
 

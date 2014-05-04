@@ -1,11 +1,10 @@
-
-/// <reference path='../../../../../d.ts/bw.d' />
-/// <reference path='../../../../../d.ts/jquery.d' />
-/// <reference path='../../../infrastructure/grid/gridRenderService' />
+/// <reference path='../../../../../../d.ts/bw.d.ts' />
+/// <reference path='../../../../../../d.ts/jquery.d' />
+/// <reference path='../../../../infrastructure/grid/gridRenderService' />
 
 'use strict';
 
-module BW.Modules.Main.Directives {
+module BW.Modules.Main.Directives.Grid {
 
     export class ScreenGrid {
 

@@ -1,15 +1,27 @@
 
+/// <reference path='../../../../../d.ts/angular.d' />
 /// <reference path='../../../../../d.ts/bw.d' />
 
 'use strict';
 
 module BW.Modules.Shared.Directives {
 
+    interface IScope extends ng.IScope {
+        displayName : string;
+        checkName : string;
+        items : Array<BW.IBuildDefinition>;
+        filteredItemName : string;
+        reverseOrder : boolean;
+        selectAll : boolean;
+        orderBuildChange : () => void;
+        selectAllChange: () => void;
+        selectChange : () => void;
+    }
+
+
     export class CheckList {
 
         public execute() {
-
-            var self = this;
 
             return {
                 restrict: 'E',
@@ -19,12 +31,13 @@ module BW.Modules.Shared.Directives {
                   displayName : '@',
                   checkName : '@'
                 },
-                controller: ['$scope', 'itemNameFilter', self.controller]
+                controller: ['$scope', 'itemNameFilter', 'buildListHelperService', this.controller]
             };
         }
 
-        private controller($scope,
-                           itemNameFilter : BW.INameFilter) {
+        private controller($scope : IScope,
+                           itemNameFilter : BW.INameFilter,
+                           listHelperService : BW.IBuildListHelperService) {
 
             $scope.filteredItemName = '';
             $scope.reverseOrder = false;
@@ -43,6 +56,12 @@ module BW.Modules.Shared.Directives {
 
                 filtered.forEach(item => item.isSelected = selectedValue);
             }
+
+            $scope.$watch('items', (newValue, oldValue) => {
+
+                $scope.selectAll = listHelperService.all(newValue);
+
+            }, true);
         }
     }
 

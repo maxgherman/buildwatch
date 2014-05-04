@@ -5,15 +5,31 @@
 
 module BW.Modules.Main.Controllers {
 
+    export interface  ISettings {
+        totalColumns : number;
+        trackBroken : boolean;
+    }
+
     export class MainController {
-        public totalColumns : number = 3;
-        public builds : Array<IBuild> = null;
+
+        private _settings : ISettings;
+
+        public builds : Array<IBuildDefinition> = null;
         public definitions : Array<IBuildDefinitionInfo> = null;
 
-        constructor(private _buildServiceWrapper : BW.IBuildServiceExternal, private listHelperService : BW.IListHelperService) {
+        public get settings() : ISettings {
+            return this._settings;
+        }
 
-            this.builds = <Array<IBuild>>[];
-            this.definitions = <Array<IBuildDefinition>>[];
+        constructor(private _buildServiceWrapper : BW.IBuildServiceExternal,
+                    private _listHelperService : BW.IBuildListHelperService) {
+
+            this.builds = [];
+            this.definitions = [];
+            this._settings = {
+                totalColumns : 3,
+                trackBroken : false
+            };
 
             _buildServiceWrapper.statusNotification(this.statusNotification.bind(this),
                                                    this.statusNotificationError.bind(this));
@@ -27,9 +43,11 @@ module BW.Modules.Main.Controllers {
             this._buildServiceWrapper.filterListNotifications(this.definitions);
         }
 
-        private statusNotification(builds : Array<IBuild>) {
+        private statusNotification(builds : Array<IBuildDefinition>) {
 
-            this.builds = builds;
+            this.builds =
+                this._listHelperService.updateDefinition(builds, this.builds);
+
         }
 
         private statusNotificationError(error : Error) {
@@ -38,7 +56,8 @@ module BW.Modules.Main.Controllers {
 
         private listNotification(definitions : Array<IBuildDefinitionInfo>) {
 
-            this.definitions = definitions;
+            this.definitions =
+                this._listHelperService.updateDefinitionInfo(definitions, this.definitions);
         }
 
         private listNotificationError(error : Error) {

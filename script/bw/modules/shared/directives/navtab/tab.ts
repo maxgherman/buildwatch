@@ -1,10 +1,21 @@
 
+/// <reference path='../../../../../../d.ts/angular.d' />
 /// <reference path='../../../../../../d.ts/bw.d' />
 
 'use strict';
 
 
 module BW.Modules.Shared.Directives.NavTab {
+
+   interface IScope extends ng.IScope {
+
+       headerIcon : string;
+       name : string;
+       isActive : string;
+       isActiveTab : () => boolean;
+       id : number;
+   }
+
 
     export class Tab {
 
@@ -27,7 +38,7 @@ module BW.Modules.Shared.Directives.NavTab {
             };
         }
 
-        private link($scope, element, attrs, parentCtrl) {
+        private link($scope : IScope, element, attrs, parentCtrl) {
 
             var tab : BW.ITab = {
                 id : undefined,
@@ -39,6 +50,7 @@ module BW.Modules.Shared.Directives.NavTab {
             parentCtrl.addTab(tab);
 
             $scope.isActiveTab = parentCtrl.isActiveTab;
+
             $scope.id = tab.id;
 
         }

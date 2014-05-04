@@ -1,9 +1,21 @@
 
+/// <reference path='../../../../../../d.ts/angular.d' />
 /// <reference path='../../../../../../d.ts/bw.d' />
 
 'use strict';
 
 module BW.Modules.Shared.Directives.NavTab {
+
+    interface IScope extends ng.IScope {
+        tabs : Array<BW.ITab>;
+        isCollapsed : boolean;
+        activeTab : BW.ITab;
+        changeNavState() : void;
+        openNav () : void;
+        isActiveTab (id: number) : boolean;
+        activateTab(id: number) : void;
+    }
+
 
     export class NavTabs {
 
@@ -18,7 +30,7 @@ module BW.Modules.Shared.Directives.NavTab {
         }
     }
 
-    function NavTabsController($scope) {
+    function NavTabsController($scope : IScope) {
 
             $scope.tabs = [];
 
@@ -30,13 +42,21 @@ module BW.Modules.Shared.Directives.NavTab {
                 $scope.isCollapsed = !$scope.isCollapsed;
             };
 
+            $scope.openNav = () => {
+                $scope.isCollapsed = false;
+            };
+
             $scope.isActiveTab = (id : number) => {
                 return $scope.activeTab.id === id;
             };
 
-            $scope.activateTab = (id : number) => {
+            $scope.activateTab = (id : number, openNav = false) => {
                 $scope.activeTab = $scope.tabs[id];
-            }
+
+                if(openNav) {
+                    $scope.openNav();
+                }
+            };
 
             this.addTab = (tab : BW.ITab) => {
 

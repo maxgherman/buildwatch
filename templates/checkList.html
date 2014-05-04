@@ -3,7 +3,9 @@
     <div class="form-group has-feedback">
         <input type='text' class="form-control" placeholder='Filter' data-ng-model='filteredItemName' />
 
-        <span class="glyphicon glyphicon-remove form-control-feedback" data-ng-click="filteredItemName = ''"></span>
+        <span class="glyphicon glyphicon-remove form-control-feedback"
+              data-ng-click="filteredItemName = ''"
+              data-ng-class="{show : filteredItemName.length > 0, hide : filteredItemName.length <= 0}"></span>
     </div>
 
     <div class="checkbox">
@@ -17,7 +19,7 @@
 
         <div class="checkbox trancate-text" data-ng-repeat="item in items | itemName : filteredItemName | orderByName:reverseOrder" >
             <label>
-                <input type="checkbox" data-ng-model="item[checkName]" > {{item[displayName]}}
+                <input type="checkbox" data-ng-model="item[checkName]"/> {{item[displayName]}}
             </label>
         </div>
 

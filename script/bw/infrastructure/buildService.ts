@@ -27,7 +27,7 @@ module BW.Infrastructure {
             return Rx.Observable.interval(5000)
                 .map<Array<BW.IBuildDefinition>>((value, index : number, source) => {
                 return this._definitions.filter(item => item.isSelected)
-                            .map(item => this.copyDefinitionData(item));
+                            .map(item => this.copyDefinitionData(item, false));
             });
         }
 
@@ -61,11 +61,11 @@ module BW.Infrastructure {
             });
         }
 
-        private copyDefinitionData(definition : IBuildDefinition) : IBuildDefinition {
+        private copyDefinitionData(definition : IBuildDefinition, copySelectedField = true) : IBuildDefinition {
             return {
                 id : definition.id,
                 name : definition.name ,
-                isSelected : definition.isSelected ,
+                isSelected : copySelectedField ? definition.isSelected : undefined ,
                 status : definition.status,
                 url: definition.url
             };

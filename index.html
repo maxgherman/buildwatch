@@ -22,9 +22,9 @@
     <script type="text/javascript" src="./script/bw/entities/build.js"></script>
     <script type="text/javascript" src="./script/bw/infrastructure/listHelperService.js"></script>
     <script type="text/javascript" src="./script/bw/infrastructure/buildService.js"></script>
-    <script type="text/javascript" src="./script/bw/infrastructure/grid/uiGrid.js"></script>
+    <script type="text/javascript" src="./script/bw/infrastructure/buildListHelperService.js"></script>
     <script type="text/javascript" src="./script/bw/infrastructure/grid/gridRenderService.js"></script>
-    <script type="text/javascript" src="./script/bw/modules/shared/services/buildService.js"></script>
+    <script type="text/javascript" src="./script/bw/modules/shared/services/buildServiceWrapper.js"></script>
     <script type="text/javascript" src="./script/bw/modules/shared/filters/itemName.js"></script>
     <script type="text/javascript" src="./script/bw/modules/shared/filters/orderName.js"></script>
 
@@ -33,12 +33,16 @@
     <script type="text/javascript" src="./script/bw/modules/shared/directives/navtab/navtabs.js"></script>
     <script type="text/javascript" src="./script/bw/modules/shared/directives/navtab/tab.js"></script>
 
+    <script type="text/javascript" src="./script/bw/modules/shared/shared.js"></script>
+    <script type="text/javascript" src="./script/bw/modules/shared/builds.js"></script>
+
     <script type="text/javascript" src="./script/bw/modules/shared/directives/checkList.js"></script>
 
-    <script type="text/javascript" src="./script/bw/modules/shared/directives/screenGrid.js"></script>
+    <script type="text/javascript" src="./script/bw/modules/shared/directives/grid/uiGrid.js"></script>
+    <script type="text/javascript" src="./script/bw/modules/shared/directives/grid/screenGrid.js"></script>
     <script type="text/javascript" src="./script/bw/modules/main/controllers/main.js"></script>
 
-    <script type="text/javascript" src="./script/app.js"></script>
+    <script type="text/javascript" src="./script/bw/modules/main/main.js"></script>
 </head>
 <body data-ng-controller="MainCtrl as ctrl">
 
@@ -62,7 +66,7 @@
 
         <div class="form-group col-md-12">
             <label for='totalColumms'>Columns</label>
-            <input id='totalColumms' type="number" min='1' max='9' class="form-control" data-ng-model='totalColumns'>
+            <input id='totalColumms' type="number" min='1' max='9' class="form-control" data-ng-model='ctrl.settings.totalColumns'>
         </div>
 
 
@@ -82,15 +86,12 @@
 
 </navtabs>
 
-<!--<settings total-columns="ctrl.totalColumns"-->
-          <!--builds="ctrl.builds"> </settings>-->
 
-
-<!--<screen-grid-->
-        <!--total-columns="ctrl.totalColumns"-->
-        <!--builds="ctrl.builds"-->
-        <!--margin='5'-->
-        <!--max-item-heigth='300' ></screen-grid>-->
+<screen-grid
+        total-columns="ctrl.settings.totalColumns"
+        builds="ctrl.builds"
+        margin="5"
+        max-item-heigth="300" ></screen-grid>
 
 
 </body>

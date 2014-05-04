@@ -24,7 +24,7 @@ var BW;
                     return _this._definitions.filter(function (item) {
                         return item.isSelected;
                     }).map(function (item) {
-                        return _this.copyDefinitionData(item);
+                        return _this.copyDefinitionData(item, false);
                     });
                 });
             };
@@ -65,11 +65,12 @@ var BW;
                 });
             };
 
-            BuildService.prototype.copyDefinitionData = function (definition) {
+            BuildService.prototype.copyDefinitionData = function (definition, copySelectedField) {
+                if (typeof copySelectedField === "undefined") { copySelectedField = true; }
                 return {
                     id: definition.id,
                     name: definition.name,
-                    isSelected: definition.isSelected,
+                    isSelected: copySelectedField ? definition.isSelected : undefined,
                     status: definition.status,
                     url: definition.url
                 };

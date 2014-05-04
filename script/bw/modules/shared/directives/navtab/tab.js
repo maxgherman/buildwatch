@@ -1,3 +1,4 @@
+/// <reference path='../../../../../../d.ts/angular.d' />
 /// <reference path='../../../../../../d.ts/bw.d' />
 'use strict';
 var BW;
@@ -38,6 +39,7 @@ var BW;
                             parentCtrl.addTab(tab);
 
                             $scope.isActiveTab = parentCtrl.isActiveTab;
+
                             $scope.id = tab.id;
                         };
                         return Tab;

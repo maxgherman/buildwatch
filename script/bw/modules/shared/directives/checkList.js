@@ -1,3 +1,4 @@
+/// <reference path='../../../../../d.ts/angular.d' />
 /// <reference path='../../../../../d.ts/bw.d' />
 'use strict';
 var BW;
@@ -9,8 +10,6 @@ var BW;
                     function CheckList() {
                     }
                     CheckList.prototype.execute = function () {
-                        var self = this;
-
                         return {
                             restrict: 'E',
                             templateUrl: 'templates/checkList.html',
@@ -19,11 +18,11 @@ var BW;
                                 displayName: '@',
                                 checkName: '@'
                             },
-                            controller: ['$scope', 'itemNameFilter', self.controller]
+                            controller: ['$scope', 'itemNameFilter', 'buildListHelperService', this.controller]
                         };
                     };
 
-                    CheckList.prototype.controller = function ($scope, itemNameFilter) {
+                    CheckList.prototype.controller = function ($scope, itemNameFilter, listHelperService) {
                         $scope.filteredItemName = '';
                         $scope.reverseOrder = false;
                         $scope.selectAll = false;
@@ -41,6 +40,10 @@ var BW;
                                 return item.isSelected = selectedValue;
                             });
                         };
+
+                        $scope.$watch('items', function (newValue, oldValue) {
+                            $scope.selectAll = listHelperService.all(newValue);
+                        }, true);
                     };
                     return CheckList;
                 })();
