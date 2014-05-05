@@ -15,8 +15,8 @@
     });
 
     mainModule.directive('screenGrid', [
-        'uiGrid', 'gridRenderService', function (UIGrid, GridRenderService) {
-            return new BW.Modules.Main.Directives.Grid.ScreenGrid(new UIGrid(), new GridRenderService()).execute();
+        'uiGrid', 'gridRenderService', 'buildListHelperService', function (UIGrid, GridRenderService, buildServiceHelper) {
+            return new BW.Modules.Main.Directives.Grid.ScreenGrid(new UIGrid(), new GridRenderService(), buildServiceHelper).execute();
         }]);
 })(angular);
 //# sourceMappingURL=main.js.map

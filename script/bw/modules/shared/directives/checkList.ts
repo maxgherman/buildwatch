@@ -4,6 +4,7 @@
 
 'use strict';
 
+
 module BW.Modules.Shared.Directives {
 
     interface IScope extends ng.IScope {

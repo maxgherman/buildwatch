@@ -11,9 +11,17 @@ module BW.Infrastructure {
 
             if(!list || list.length <= 0) return false;
 
-            return list.filter(item => predicate(item)).length === list.length;
+            return list.every(predicate);
 
         }
+
+        public filter<R>(list : Array<R>, predicate : (a : R) => boolean) : Array<R> {
+
+            if(!list) return undefined;
+
+            return list.filter(predicate);
+        }
+
 
         public update<R>(sourceList : Array<R>,
                          targetList : Array<R>,

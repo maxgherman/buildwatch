@@ -16,5 +16,4 @@
 
     mainModule.factory('buildListHelperService', () => new BW.Infrastructure.BuildListHelperService());
 
-
 })(angular);

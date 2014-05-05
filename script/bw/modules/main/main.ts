@@ -16,8 +16,8 @@
     mainModule.factory('uiGrid',  () => BW.Modules.Main.Directives.Grid.UIGrid);
 
     mainModule.directive('screenGrid',
-        ['uiGrid', 'gridRenderService', (UIGrid, GridRenderService) => {
-            return new BW.Modules.Main.Directives.Grid.ScreenGrid(new UIGrid(), new GridRenderService())
+        ['uiGrid', 'gridRenderService', 'buildListHelperService' , (UIGrid, GridRenderService, buildServiceHelper) => {
+            return new BW.Modules.Main.Directives.Grid.ScreenGrid(new UIGrid(), new GridRenderService(),buildServiceHelper)
                 .execute();
         }] );
 

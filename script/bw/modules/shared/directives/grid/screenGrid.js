@@ -9,9 +9,10 @@ var BW;
             (function (Directives) {
                 (function (Grid) {
                     var ScreenGrid = (function () {
-                        function ScreenGrid(_grid, _gridRenderService) {
+                        function ScreenGrid(_grid, _gridRenderService, _buildListService) {
                             this._grid = _grid;
                             this._gridRenderService = _gridRenderService;
+                            this._buildListService = _buildListService;
                         }
                         ScreenGrid.prototype.execute = function () {
                             var self = this;
@@ -53,18 +54,11 @@ var BW;
 
                                 self._gridRenderService.columns = newValue;
                                 self._gridRenderService.render();
-                                //            renderHolder.columns = newValue;
-                                //            renderHolder.builds = filterBuilds($scope.builds);
-                                //
-                                //            render(renderHolder);
                             });
 
                             $scope.$watch('builds', function (newValue, oldValue) {
-                                self._gridRenderService.builds = newValue;
-                                self._gridRenderService.update(oldValue);
-                                //renderHolder.builds = filterBuilds(newValue);
-                                //oldValue = filterBuilds(oldValue);
-                                //updateGrid(renderHolder, oldValue);
+                                self._gridRenderService.builds = self._buildListService.filter(newValue);
+                                self._gridRenderService.update(self._buildListService.filter(oldValue));
                             }, true);
 
                             self._gridRenderService.render();

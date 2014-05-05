@@ -19,20 +19,30 @@ var BW;
                 this._defaultUpdater = function (source, target) {
                     return source.isSelected = target.isSelected;
                 };
-                this._allPredicate = function (a) {
+                this._defaultPredicate = function (a) {
                     return a.isSelected;
                 };
             }
-            BuildListHelperService.prototype.all = function (list) {
-                return _super.prototype.all.call(this, list, this._allPredicate);
+            BuildListHelperService.prototype.all = function (list, predicate) {
+                if (typeof predicate === "undefined") { predicate = this._defaultPredicate; }
+                return _super.prototype.all.call(this, list, predicate);
             };
 
-            BuildListHelperService.prototype.updateDefinitionInfo = function (sourceList, targetList) {
-                return _super.prototype.update.call(this, sourceList, targetList, this._defaultComparer, this._defaultUpdater);
+            BuildListHelperService.prototype.updateDefinitionInfo = function (sourceList, targetList, comparer, updater) {
+                if (typeof comparer === "undefined") { comparer = this._defaultComparer; }
+                if (typeof updater === "undefined") { updater = this._defaultUpdater; }
+                return _super.prototype.update.call(this, sourceList, targetList, comparer, updater);
             };
 
-            BuildListHelperService.prototype.updateDefinition = function (sourceList, targetList) {
-                return _super.prototype.update.call(this, sourceList, targetList, this._defaultComparer, this._defaultUpdater);
+            BuildListHelperService.prototype.updateDefinition = function (sourceList, targetList, comparer, updater) {
+                if (typeof comparer === "undefined") { comparer = this._defaultComparer; }
+                if (typeof updater === "undefined") { updater = this._defaultUpdater; }
+                return _super.prototype.update.call(this, sourceList, targetList, comparer, updater);
+            };
+
+            BuildListHelperService.prototype.filter = function (list, predicate) {
+                if (typeof predicate === "undefined") { predicate = this._defaultPredicate; }
+                return _super.prototype.filter.call(this, list, predicate);
             };
             return BuildListHelperService;
         })(BW.Infrastructure.ListHelperService);

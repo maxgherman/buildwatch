@@ -8,7 +8,9 @@ module BW.Modules.Main.Directives.Grid {
 
     export class ScreenGrid {
 
-        constructor(private _grid : BW.IUIGrid, private _gridRenderService : BW.IGridRenderService) {}
+        constructor(private _grid : BW.IUIGrid,
+                    private _gridRenderService : BW.IGridRenderService,
+                    private _buildListService : BW.IBuildListHelperService) {}
 
         public execute() {
 
@@ -54,22 +56,13 @@ module BW.Modules.Main.Directives.Grid {
                 self._gridRenderService.columns = newValue;
                 self._gridRenderService.render();
 
-//            renderHolder.columns = newValue;
-//            renderHolder.builds = filterBuilds($scope.builds);
-//
-//            render(renderHolder);
             });
 
             $scope.$watch('builds', function(newValue, oldValue) {
 
 
-                self._gridRenderService.builds = newValue;
-                self._gridRenderService.update(oldValue);
-
-                //renderHolder.builds = filterBuilds(newValue);
-                //oldValue = filterBuilds(oldValue);
-
-                //updateGrid(renderHolder, oldValue);
+                self._gridRenderService.builds = self._buildListService.filter(newValue);
+                self._gridRenderService.update(self._buildListService.filter(oldValue));
 
             }, true);
 

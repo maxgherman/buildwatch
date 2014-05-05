@@ -34,16 +34,24 @@ declare module BW {
                   update: (newEl : R, oldEl : R) => void) : Array<R>;
 
         all<R>(list : Array<R>, predicate : (a : R) => boolean);
+
+        filter<R>(list : Array<R>, predicate : (a : R) => boolean) : Array<R>;
     }
 
     interface IBuildListHelperService {
-        all(list : Array<BW.IBuildDefinition>) : boolean;
+        all(list : Array<BW.IBuildDefinition>, predicate? : (a : BW.IBuildDefinition) => boolean) : boolean;
 
         updateDefinitionInfo(sourceList : Array<BW.IBuildDefinitionInfo>,
-               targetList : Array<BW.IBuildDefinitionInfo>) : Array<BW.IBuildDefinitionInfo>;
+                             targetList : Array<BW.IBuildDefinitionInfo>,
+                             comparer? : (a : BW.IBuildDefinitionInfo, b : BW.IBuildDefinitionInfo) => boolean,
+                             updater? : (a : BW.IBuildDefinitionInfo, b : BW.IBuildDefinitionInfo) => void) : Array<BW.IBuildDefinitionInfo>;
 
         updateDefinition(sourceList : Array<BW.IBuildDefinition>,
-                             targetList : Array<BW.IBuildDefinition>) : Array<BW.IBuildDefinition>;
+                         targetList : Array<BW.IBuildDefinition>,
+                         comparer? : (a : BW.IBuildDefinition, b : BW.IBuildDefinition) => boolean,
+                         updater? : (a : BW.IBuildDefinition, b : BW.IBuildDefinition) => void) : Array<BW.IBuildDefinition>;
+
+        filter(list : Array<BW.IBuildDefinitionInfo>, predicate? : (a : BW.IBuildDefinitionInfo) => boolean) : Array<BW.IBuildDefinitionInfo>
     }
 
 

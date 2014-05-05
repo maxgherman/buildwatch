@@ -1,5 +1,5 @@
 html {
-    height: 100%;
+    height: 110%;
     padding : 0;
     margin : 0;
 }
@@ -10,7 +10,7 @@ body {
     padding : 0;
     margin : 0;
     overflow: hidden;
-    height: 100%;
+    height: 110%;
 }
 
 .has-feedback .form-control-feedback {
@@ -18,13 +18,6 @@ body {
     color:#000000;
     font-weight: inherit;
 }
-
-.list-header {
-    border-radius:0px;
-    margin-bottom: 10px;
-}
-
-
 
 
 

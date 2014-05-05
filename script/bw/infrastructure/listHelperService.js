@@ -10,9 +10,14 @@ var BW;
                 if (!list || list.length <= 0)
                     return false;
 
-                return list.filter(function (item) {
-                    return predicate(item);
-                }).length === list.length;
+                return list.every(predicate);
+            };
+
+            ListHelperService.prototype.filter = function (list, predicate) {
+                if (!list)
+                    return undefined;
+
+                return list.filter(predicate);
             };
 
             ListHelperService.prototype.update = function (sourceList, targetList, comparer, update) {

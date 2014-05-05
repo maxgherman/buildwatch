@@ -3,6 +3,7 @@
 
 'use strict';
 
+
 module BW.Modules.Main.Controllers {
 
     export interface  ISettings {
@@ -45,7 +46,7 @@ module BW.Modules.Main.Controllers {
 
         private statusNotification(builds : Array<IBuildDefinition>) {
 
-            this.builds =
+           this.builds =
                 this._listHelperService.updateDefinition(builds, this.builds);
 
         }
@@ -56,7 +57,7 @@ module BW.Modules.Main.Controllers {
 
         private listNotification(definitions : Array<IBuildDefinitionInfo>) {
 
-            this.definitions =
+           this.definitions =
                 this._listHelperService.updateDefinitionInfo(definitions, this.definitions);
         }
 
