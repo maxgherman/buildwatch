@@ -9,10 +9,11 @@ var BW;
             (function (Directives) {
                 (function (Grid) {
                     var ScreenGrid = (function () {
-                        function ScreenGrid(_grid, _gridRenderService, _buildListService) {
+                        function ScreenGrid(_grid, _gridRenderService, _buildListService, _window) {
                             this._grid = _grid;
                             this._gridRenderService = _gridRenderService;
                             this._buildListService = _buildListService;
+                            this._window = _window;
                         }
                         ScreenGrid.prototype.execute = function () {
                             var self = this;
@@ -38,10 +39,10 @@ var BW;
                                 columns: $scope.totalColumns,
                                 builds: $scope.builds,
                                 margin: $scope.margin,
-                                maxItemHeight: $scope.maxItemHeight
+                                maxItemHeight: $scope.maxItemHeigth
                             }, self._grid);
 
-                            $(window).resize(function () {
+                            $(self._window).resize(function () {
                                 self._gridRenderService.render();
                             });
 

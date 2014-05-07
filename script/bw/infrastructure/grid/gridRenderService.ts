@@ -6,7 +6,7 @@ module BW.Infrastructure.Grid {
     export class GridRenderService implements BW.IGridRenderService{
         private _grid:BW.IUIGrid;
         private _columns:number;
-        private _builds:Array<BW.IBuild>;
+        private _builds:Array<BW.IBuildDefinition>;
         private _margin:number;
         private _maxItemHeight:number;
 
@@ -18,11 +18,11 @@ module BW.Infrastructure.Grid {
             this._columns = value;
         }
 
-        public get builds():Array<BW.IBuild> {
+        public get builds():Array<BW.IBuildDefinition> {
             return this._builds;
         }
 
-        public set builds(value:Array<BW.IBuild>) {
+        public set builds(value:Array<BW.IBuildDefinition>) {
             this._builds = value;
         }
 

@@ -4,13 +4,15 @@
 
 'use strict';
 
+
 module BW.Modules.Main.Directives.Grid {
 
     export class ScreenGrid {
 
         constructor(private _grid : BW.IUIGrid,
                     private _gridRenderService : BW.IGridRenderService,
-                    private _buildListService : BW.IBuildListHelperService) {}
+                    private _buildListService : BW.IBuildListHelperService,
+                    private _window :JQuery) {}
 
         public execute() {
 
@@ -38,10 +40,10 @@ module BW.Modules.Main.Directives.Grid {
                 columns: $scope.totalColumns,
                 builds: $scope.builds,
                 margin: $scope.margin,
-                maxItemHeight : $scope.maxItemHeight
+                maxItemHeight : $scope.maxItemHeigth
             }, self._grid);
 
-            $(window).resize(function() {
+            $(self._window).resize(function() {
                 self._gridRenderService.render();
             });
 
@@ -60,8 +62,7 @@ module BW.Modules.Main.Directives.Grid {
 
             $scope.$watch('builds', function(newValue, oldValue) {
 
-
-                self._gridRenderService.builds = self._buildListService.filter(newValue);
+                self._gridRenderService.builds = <Array<BW.IBuildDefinition>>self._buildListService.filter(newValue);
                 self._gridRenderService.update(self._buildListService.filter(oldValue));
 
             }, true);

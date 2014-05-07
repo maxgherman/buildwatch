@@ -1,6 +1,9 @@
 /// <reference path='../../../../../../d.ts/bw.d.ts' />
 /// <reference path='../../../../../../d.ts/jquery.d' />
 
+'use strict';
+
+
 module BW.Modules.Main.Directives.Grid {
 
     interface IGridComponent {
@@ -25,6 +28,10 @@ module BW.Modules.Main.Directives.Grid {
         private _$gridster : JQuery;
         private _$gridsterList : IGridElement;
 
+
+        constructor(private _window :JQuery) {
+
+        }
 
         public load(parent : HTMLElement) {
             this._$dashBoasrd =  $('.dashboardjs', parent);
@@ -61,26 +68,29 @@ module BW.Modules.Main.Directives.Grid {
             }).data('gridster');
         }
 
-        public addWidget(build : BW.IBuild, size : BW.IGridSize, x : number, y : number) {
+        public addWidget(build : BW.IBuildDefinition, size : BW.IGridSize, x : number, y : number) {
 
             var buildEl = ['<li data-id="',  build.id ,'"> <div class="shine">  ', build.name, ' </div>  </li>'].join('');
 
             this._gridComponent.add_widget(buildEl, size.columns, size.rows, x, y);
         }
 
-        public removeWidget(build : BW.IBuild) {
+        public removeWidget(build : BW.IBuildDefinition) {
             var gridItem = this.getGridItem(build);
 
             this._gridComponent.remove_widget(gridItem);
+
+            var gridItem = this.getGridItem(build);
+            gridItem.remove();
         }
 
-        public updateWidget(build : BW.IBuild) {
+        public updateWidget(build : BW.IBuildDefinition) {
             var gridItem = this.getGridItem(build);
 
             $("div", gridItem).html(build.name);
         }
 
-        private getGridItem(build : BW.IBuild) {
+        private getGridItem(build : BW.IBuildDefinition) {
             var selector = ["li[data-id='", build.id, "']"].join('');
             return $(selector, this._$gridsterList);
         }
@@ -95,8 +105,8 @@ module BW.Modules.Main.Directives.Grid {
 
         private getWindowSize() : BW.ISize {
             return {
-                width : $(window).width(),
-                height : $(window).height()
+                width : $(this._window).width(),
+                height : $(this._window).height()
             };
         }
     }

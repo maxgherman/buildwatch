@@ -1,5 +1,6 @@
 /// <reference path='../../../../../../d.ts/bw.d.ts' />
 /// <reference path='../../../../../../d.ts/jquery.d' />
+'use strict';
 var BW;
 (function (BW) {
     (function (Modules) {
@@ -7,7 +8,8 @@ var BW;
             (function (Directives) {
                 (function (Grid) {
                     var UIGrid = (function () {
-                        function UIGrid() {
+                        function UIGrid(_window) {
+                            this._window = _window;
                         }
                         UIGrid.prototype.load = function (parent) {
                             this._$dashBoasrd = $('.dashboardjs', parent);
@@ -52,6 +54,9 @@ var BW;
                             var gridItem = this.getGridItem(build);
 
                             this._gridComponent.remove_widget(gridItem);
+
+                            var gridItem = this.getGridItem(build);
+                            gridItem.remove();
                         };
 
                         UIGrid.prototype.updateWidget = function (build) {
@@ -75,8 +80,8 @@ var BW;
 
                         UIGrid.prototype.getWindowSize = function () {
                             return {
-                                width: $(window).width(),
-                                height: $(window).height()
+                                width: $(this._window).width(),
+                                height: $(this._window).height()
                             };
                         };
                         return UIGrid;

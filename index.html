@@ -15,11 +15,9 @@
     <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.js"></script>
     <script type="text/javascript" src="./script/vendor/jquery.gridster.js"></script>
-
     <script type="text/javascript" src="./script/vendor/rx.lite.js"></script>
 
 
-    <script type="text/javascript" src="./script/bw/entities/build.js"></script>
     <script type="text/javascript" src="./script/bw/infrastructure/listHelperService.js"></script>
     <script type="text/javascript" src="./script/bw/infrastructure/buildService.js"></script>
     <script type="text/javascript" src="./script/bw/infrastructure/buildListHelperService.js"></script>
@@ -36,9 +34,10 @@
     <script type="text/javascript" src="./script/bw/modules/shared/builds.js"></script>
 
     <script type="text/javascript" src="./script/bw/modules/shared/directives/checkList.js"></script>
+    <script type="text/javascript" src="./script/bw/modules/shared/directives/blocker.js"></script>
 
-    <script type="text/javascript" src="./script/bw/modules/shared/directives/grid/uiGrid.js"></script>
-    <script type="text/javascript" src="./script/bw/modules/shared/directives/grid/screenGrid.js"></script>
+    <script type="text/javascript" src="./script/bw/modules/main/directives/grid/uiGrid.js"></script>
+    <script type="text/javascript" src="./script/bw/modules/main/directives/grid/screenGrid.js"></script>
     <script type="text/javascript" src="./script/bw/modules/main/controllers/main.js"></script>
 
     <script type="text/javascript" src="./script/bw/modules/main/main.js"></script>
@@ -86,11 +85,15 @@
 </navtabs>
 
 
-<screen-grid
-        total-columns="ctrl.settings.totalColumns"
-        builds="ctrl.builds"
-        margin="5"
-        max-item-heigth="300" ></screen-grid>
+<!--<screen-grid-->
+        <!--total-columns="ctrl.settings.totalColumns"-->
+        <!--builds="ctrl.builds"-->
+        <!--margin="5"-->
+        <!--max-item-heigth="400" ></screen-grid>-->
+
+<blocker text="ctrl.blocker.text"
+         sub-text="ctrl.blocker.subText"
+         visible="ctrl.blocker.isVisible"></blocker>
 
 
 </body>

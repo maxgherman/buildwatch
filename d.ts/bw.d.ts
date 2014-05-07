@@ -5,9 +5,14 @@
 declare module BW {
 
     enum BuildStatus {
-        Success = 1,
-        Failed = 2,
-        InProgress = 3
+        None = 0,
+        InProgress = 1,
+        Succeeded = 2,
+        PartiallySucceeded = 4,
+        Failed = 8,
+        Stopped = 16,
+        NotStarted = 32,
+        All = 63
     }
 
     interface IBuildDefinitionInfo {
@@ -20,10 +25,7 @@ declare module BW {
 
         url : string;
         status : BuildStatus;
-    }
-
-    interface IBuild extends  IBuildDefinitionInfo {
-
+        triggeredBy : string
     }
 
     interface IListHelperService {
@@ -74,7 +76,7 @@ declare module BW {
     interface IGreedRenderData {
 
         columns: number;
-        builds: Array<BW.IBuild>;
+        builds: Array<BW.IBuildDefinition>;
         margin: number;
         maxItemHeight : number;
     }
@@ -93,14 +95,14 @@ declare module BW {
         load(parent : HTMLElement) : void;
         resetFrameSize() : BW.ISize;
         renderGrid(widgetSize : BW.ISize, margin : number) : void;
-        addWidget(build : BW.IBuild, size : BW.IGridSize, x : number, y : number) : void;
-        removeWidget(build : BW.IBuild) : void;
-        updateWidget(build : BW.IBuild) : void;
+        addWidget(build : BW.IBuildDefinition, size : BW.IGridSize, x : number, y : number) : void;
+        removeWidget(build : BW.IBuildDefinition) : void;
+        updateWidget(build : BW.IBuildDefinition) : void;
     }
 
     interface IGridRenderService {
         columns : number;
-        builds : Array<BW.IBuild>;
+        builds : Array<BW.IBuildDefinition>;
         margin : number;
         maxItemHeight : number;
         load(renderData: IGreedRenderData, grid:BW.IUIGrid) : void;

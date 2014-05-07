@@ -1,7 +1,7 @@
 /// <reference path='../../../../d.ts/angular.d' />
 /// <reference path='./controllers/main' />
-/// <reference path='../shared/directives/grid/uiGrid' />
-/// <reference path='../shared/directives/grid/screenGrid' />
+/// <reference path='./directives/grid/uiGrid' />
+/// <reference path='./directives/grid/screenGrid' />
 'use strict';
 (function (ang) {
     var mainModule = ang.module('main', ['builds']);
@@ -15,8 +15,9 @@
     });
 
     mainModule.directive('screenGrid', [
-        'uiGrid', 'gridRenderService', 'buildListHelperService', function (UIGrid, GridRenderService, buildServiceHelper) {
-            return new BW.Modules.Main.Directives.Grid.ScreenGrid(new UIGrid(), new GridRenderService(), buildServiceHelper).execute();
+        'uiGrid', 'gridRenderService', 'buildListHelperService', '$window',
+        function (UIGrid, GridRenderService, buildServiceHelper, $window) {
+            return new BW.Modules.Main.Directives.Grid.ScreenGrid(new UIGrid($window), new GridRenderService(), buildServiceHelper, $window).execute();
         }]);
 })(angular);
 //# sourceMappingURL=main.js.map

@@ -2917,6 +2917,9 @@
      */
     fn.move_widget_up = function($widget, y_units) {
         var el_grid_data = $widget.coords().grid;
+
+        if(!el_grid_data) return;
+
         var actual_row = el_grid_data.row;
         var moved = [];
         var can_go_up = true;

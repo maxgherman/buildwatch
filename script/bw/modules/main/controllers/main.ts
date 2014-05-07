@@ -11,15 +11,28 @@ module BW.Modules.Main.Controllers {
         trackBroken : boolean;
     }
 
+    export interface IBlocker {
+        text : string;
+        subText : string;
+        isVisible : boolean;
+        show(show: boolean) : void;
+    }
+
     export class MainController {
 
         private _settings : ISettings;
+
+        private _blocker : IBlocker;
 
         public builds : Array<IBuildDefinition> = null;
         public definitions : Array<IBuildDefinitionInfo> = null;
 
         public get settings() : ISettings {
             return this._settings;
+        }
+
+        public get blocker() : IBlocker {
+            return this._blocker;
         }
 
         constructor(private _buildServiceWrapper : BW.IBuildServiceExternal,
@@ -31,6 +44,8 @@ module BW.Modules.Main.Controllers {
                 totalColumns : 3,
                 trackBroken : false
             };
+
+            this._blocker = new Blocker('Waiting connection ...', true);
 
             _buildServiceWrapper.statusNotification(this.statusNotification.bind(this),
                                                    this.statusNotificationError.bind(this));
@@ -49,9 +64,7 @@ module BW.Modules.Main.Controllers {
            this.builds =
                 this._listHelperService.updateDefinition(builds, this.builds);
 
-        }
-
-        private statusNotificationError(error : Error) {
+            this._blocker.show(false);
 
         }
 
@@ -59,14 +72,27 @@ module BW.Modules.Main.Controllers {
 
            this.definitions =
                 this._listHelperService.updateDefinitionInfo(definitions, this.definitions);
+
+            this._blocker.show(false);
+        }
+
+        private statusNotificationError(error : Error) {
+            this._blocker.show(true);
         }
 
         private listNotificationError(error : Error) {
-
+            this._blocker.show(true);
         }
-
-
-
     }
 
+    class Blocker implements IBlocker {
+
+        public subText : string;
+
+        constructor(public text :string, public isVisible :boolean) { }
+
+        public show(display : boolean) {
+            this.isVisible = display;
+        }
+    }
 }

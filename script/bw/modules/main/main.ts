@@ -1,8 +1,8 @@
 
 /// <reference path='../../../../d.ts/angular.d' />
 /// <reference path='./controllers/main' />
-/// <reference path='../shared/directives/grid/uiGrid' />
-/// <reference path='../shared/directives/grid/screenGrid' />
+/// <reference path='./directives/grid/uiGrid' />
+/// <reference path='./directives/grid/screenGrid' />
 
 'use strict';
 
@@ -16,10 +16,15 @@
     mainModule.factory('uiGrid',  () => BW.Modules.Main.Directives.Grid.UIGrid);
 
     mainModule.directive('screenGrid',
-        ['uiGrid', 'gridRenderService', 'buildListHelperService' , (UIGrid, GridRenderService, buildServiceHelper) => {
-            return new BW.Modules.Main.Directives.Grid.ScreenGrid(new UIGrid(), new GridRenderService(),buildServiceHelper)
-                .execute();
-        }] );
+        ['uiGrid', 'gridRenderService', 'buildListHelperService', '$window',
+            (UIGrid, GridRenderService, buildServiceHelper, $window) => {
+                return new BW.Modules.Main.Directives.Grid.ScreenGrid(
+                    new UIGrid($window),
+                    new GridRenderService(),
+                    buildServiceHelper,
+                    $window)
+                    .execute()
+        }]);
 
 })(angular);
 
