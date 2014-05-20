@@ -1,4 +1,5 @@
 /// <reference path='../../../../../d.ts/bw.d' />
+/// <reference path='../../../../../d.ts/angular.d.ts' />
 /// <reference path='../../../infrastructure/buildService' />
 'use strict';
 var BW;
@@ -25,6 +26,8 @@ var BW;
                                 buildService.statusNotification().subscribe(function (states) {
                                     self.applyScope($rootScope, states, onData);
                                 }, function (error) {
+                                    console.error(error.toString());
+
                                     self.applyScope($rootScope, error, onError);
                                 });
                             },
@@ -32,6 +35,8 @@ var BW;
                                 buildService.listNotification().subscribe(function (list) {
                                     self.applyScope($rootScope, list, onData);
                                 }, function (error) {
+                                    console.error(error.toString());
+
                                     self.applyScope($rootScope, error, onError);
                                 });
                             },
@@ -42,9 +47,14 @@ var BW;
                     };
 
                     BuildServiceWrapper.prototype.applyScope = function ($rootScope, data, action) {
-                        $rootScope.$apply(function () {
+                        var phase = $rootScope.$$phase;
+                        if (phase == '$apply' || phase == '$digest') {
                             action(data);
-                        });
+                        } else {
+                            $rootScope.$apply(function () {
+                                action(data);
+                            });
+                        }
                     };
                     return BuildServiceWrapper;
                 })();

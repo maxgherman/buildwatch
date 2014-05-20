@@ -4,6 +4,10 @@
 
 declare module BW {
 
+    interface IDate extends Date {
+        toFormattedString() : string;
+    }
+
     enum BuildStatus {
         None = 0,
         InProgress = 1,
@@ -17,15 +21,18 @@ declare module BW {
 
     interface IBuildDefinitionInfo {
         id : number;
-        name : string;
-        isSelected? : boolean;
+        displayName : string;
+        filtered? : boolean;
     }
 
     interface IBuildDefinition extends  IBuildDefinitionInfo {
-
-        url : string;
+        definition : string;
+        definitionUrl : string;
+        statusText: string;
         status : BuildStatus;
-        triggeredBy : string
+        requestedBy : string;
+        startDate: IDate;
+        finishDate : IDate;
     }
 
     interface IListHelperService {
@@ -53,21 +60,28 @@ declare module BW {
                          comparer? : (a : BW.IBuildDefinition, b : BW.IBuildDefinition) => boolean,
                          updater? : (a : BW.IBuildDefinition, b : BW.IBuildDefinition) => void) : Array<BW.IBuildDefinition>;
 
-        filter(list : Array<BW.IBuildDefinitionInfo>, predicate? : (a : BW.IBuildDefinitionInfo) => boolean) : Array<BW.IBuildDefinitionInfo>
+        filter(list : Array<BW.IBuildDefinitionInfo>, predicate? : (a : BW.IBuildDefinitionInfo) => boolean) : Array<BW.IBuildDefinitionInfo>;
+        filterDefinitions(list : Array<BW.IBuildDefinition>, predicate? : (a : BW.IBuildDefinition) => boolean) : Array<BW.IBuildDefinition>;
+    }
+
+    interface INotificationResult<T> {
+        data : T;
+        success : boolean;
+        error : Error;
     }
 
 
     interface IBuildService {
-        statusNotification() : Rx.IObservable<Array<IBuildDefinition>>;
-        listNotification() : Rx.IObservable<Array<IBuildDefinitionInfo>>;
+        statusNotification() : Rx.IObservable<INotificationResult<Array<IBuildDefinition>>>;
+        listNotification() : Rx.IObservable<INotificationResult<Array<IBuildDefinitionInfo>>>;
         setListNotificationFilter(definitions : Array<BW.IBuildDefinitionInfo>) : void;
     }
 
     interface IBuildServiceExternal {
-        statusNotification(onData : (states : Array<BW.IBuildDefinition>) => void,
+        statusNotification(onData : (result : INotificationResult<Array<BW.IBuildDefinition>>) => void,
                            onError : (error : Error) => void) : void;
 
-        listNotification(onData : (states : Array<BW.IBuildDefinitionInfo>) => void,
+        listNotification(onData : (result : INotificationResult<Array<BW.IBuildDefinitionInfo>>) => void,
                            onError : (error : Error) => void) : void;
 
         filterListNotifications(value : Array<BW.IBuildDefinitionInfo>) : void;
@@ -94,10 +108,11 @@ declare module BW {
     interface IUIGrid {
         load(parent : HTMLElement) : void;
         resetFrameSize() : BW.ISize;
-        renderGrid(widgetSize : BW.ISize, margin : number) : void;
-        addWidget(build : BW.IBuildDefinition, size : BW.IGridSize, x : number, y : number) : void;
+        renderGrid(widgetSize : BW.ISize, size : BW.IGridSize, margin : number, builds : Array<BW.IBuildDefinition>);
         removeWidget(build : BW.IBuildDefinition) : void;
         updateWidget(build : BW.IBuildDefinition) : void;
+        buildStatusToCss : (buildStatus : BuildStatus) => string;
+        buildClick : (id: number) => void;
     }
 
     interface IGridRenderService {
@@ -118,8 +133,16 @@ declare module BW {
     }
 
     interface INameFilter {
-        (data:Array<BW.IBuildDefinitionInfo>, name:string) : Array<BW.IBuildDefinitionInfo>;
+        (data:Array<BW.IBuildDefinition>, name:string) : Array<BW.IBuildDefinition>;
     }
+
+    interface ILocalStorageService {
+        addResource<R>(key : string, method : () => R) : void;
+        getResource<R>(key : string) : R;
+        save() : void;
+        restore() : void;
+    }
+
 }
 
 

@@ -2,16 +2,18 @@
 ///<reference path='../../../../d.ts/angular.d' />
 ///<reference path='../../infrastructure/grid/gridRenderService' />
 ///<reference path='../../infrastructure/listHelperService' />
+///<reference path='../../infrastructure/dateService' />
 ///<reference path='./directives/navtab/navtabs' />
 ///<reference path='./directives/navtab/tab' />
 ///<reference path='./directives/checkList' />
 ///<reference path='./directives/blocker' />
 ///<reference path='./filters/itemName' />
 ///<reference path='./filters/orderName' />
+///<reference path='../../infrastructure/storageService' />
 
 (function(ang) {
 
-    var mainModule = ang.module('shared', []);
+    var mainModule = ang.module('shared', ['LocalStorageModule']);
 
     mainModule.directive('navtabs', () => new BW.Modules.Shared.Directives.NavTab.NavTabs().execute());
 
@@ -28,5 +30,11 @@
     mainModule.factory('gridRenderService',  () => BW.Infrastructure.Grid.GridRenderService);
 
     mainModule.factory('listHelperService', () => new BW.Infrastructure.ListHelperService());
+
+    mainModule.factory('dateService', () => new BW.Infrastructure.DateService());
+
+    mainModule.factory('storageHelperService', ['localStorageService',
+        _ => new BW.Infrastructure.StorageHelperService(_)]);
+
 
 })(angular);

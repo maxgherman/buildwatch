@@ -4,76 +4,92 @@
 'use strict';
 
 
+
 module BW.Infrastructure {
 
     export class BuildService implements BW.IBuildService {
 
         private _definitions = [
-            { id : 1, name : 'Test 1', isSelected : undefined , status : BW.BuildStatus.InProgress, url: '', triggeredBy : 'Test User'},
-            { id : 2, name : 'Test 2', isSelected : undefined , status : BW.BuildStatus.InProgress, url: '', triggeredBy : 'Test User'},
-            { id : 4, name : 'Test 4', isSelected : undefined , status : BW.BuildStatus.InProgress, url: '', triggeredBy : 'Test User'},
-            { id : 6, name : 'Test 6', isSelected : undefined , status : BW.BuildStatus.InProgress, url: '', triggeredBy : 'Test User'},
-            { id : 3, name : 'Test 3', isSelected : undefined, status : BW.BuildStatus.InProgress , url: '', triggeredBy : 'Test User'},
-            { id : 5, name : 'Test 5', isSelected : undefined , status : BW.BuildStatus.InProgress, url: '', triggeredBy : 'Test User'},
-            { id : 7, name : 'Test 6', isSelected : undefined , status : BW.BuildStatus.InProgress, url: '', triggeredBy : 'Test User'},
-            { id : 8, name : 'Test 7', isSelected : undefined , status : BW.BuildStatus.InProgress, url: '', triggeredBy : 'Test User'},
-            { id : 9, name : 'Test 8', isSelected : undefined , status : BW.BuildStatus.InProgress, url: '', triggeredBy : 'Test User'},
-            { id : 10, name : 'Test 9', isSelected :undefined, status : BW.BuildStatus.InProgress, url: '', triggeredBy : 'Test User'}
+            { id : 2, displayName : 'Test Name 1',  definition : 'Test Name 1', statusText : 'InProgress', filtered : undefined , status : BW.BuildStatus.InProgress, definitionUrl: '', requestedBy : 'AAA BBB',  startDate : <BW.IDate>new Date(), finishDate : <BW.IDate>new Date()},
+            { id : 1, displayName : 'Test Name 1. Some very long build name',  definition : 'Test Name 1',  statusText : 'Succeeded', filtered : undefined , status : BW.BuildStatus.Succeeded, definitionUrl: '', requestedBy : 'CCC DDD',  startDate : <BW.IDate>new Date(), finishDate : <BW.IDate>new Date()},
+            { id : 4, displayName : 'Test Name 1. Another long name',  definition : 'Test Name 1',   statusText : 'Failed', filtered : undefined , status : BW.BuildStatus.Failed, definitionUrl: '', requestedBy : 'DD EEEE',  startDate : <BW.IDate>new Date(), finishDate : <BW.IDate>new Date()},
+            { id : 6, displayName : 'Test Name 1. Truk.Ci.Cti.Local',  definition : 'Test Name 1',   statusText : 'NotStarted', filtered : undefined , status : BW.BuildStatus.NotStarted, definitionUrl: '', requestedBy : 'GFFF GGG',  startDate : <BW.IDate>new Date(), finishDate : <BW.IDate>new Date()},
+            { id : 3, displayName : 'Test Name 1. Testing build length',  definition : 'Test Name 1',   statusText : 'Stopped', filtered : undefined, status : BW.BuildStatus.Stopped , definitionUrl: '', requestedBy : 'KKK LLL',  startDate : <BW.IDate>new Date(), finishDate : <BW.IDate>new Date()},
+            { id : 5, displayName : 'Test Name 1',  definition : 'Test Name 1',   statusText : 'PartiallySucceeded', filtered : undefined , status : BW.BuildStatus.PartiallySucceeded, definitionUrl: '', requestedBy : 'MMM ooo',  startDate : <BW.IDate>new Date(), finishDate : <BW.IDate>new Date()},
+            { id : 7, displayName : 'Test Name 1',  definition : 'Test Name 1',   statusText : 'All', filtered : undefined , status : BW.BuildStatus.All, definitionUrl: '', requestedBy : 'Test User',  startDate : <BW.IDate>new Date(), finishDate : <BW.IDate>new Date()},
+            { id : 8, displayName : 'Test Name 1',  definition : 'Test Name 1',   statusText : 'None', filtered : undefined , status : BW.BuildStatus.None, definitionUrl: '', requestedBy : 'User with Name',  startDate : <BW.IDate>new Date(), finishDate : <BW.IDate>new Date()},
+            { id : 9, displayName : 'Test Name 1',  definition : 'Test Name 1',   statusText : 'NotStarted', filtered : undefined , status : BW.BuildStatus.NotStarted, definitionUrl: '', requestedBy : 'Another User',  startDate : <BW.IDate>new Date(), finishDate : <BW.IDate>new Date()},
+            { id : 10, displayName : 'Test Name 1',  definition : 'Test Name 1',   statusText : 'Succeeded', filtered :undefined, status : BW.BuildStatus.Succeeded, definitionUrl: '', requestedBy : 'One more User',  startDate : <BW.IDate>new Date(), finishDate : <BW.IDate>new Date()},
+
+
+            { id : 11, displayName : 'Test Name 1',  definition : 'Test Name 1', statusText : 'InProgress', filtered : undefined , status : BW.BuildStatus.InProgress, definitionUrl: '', requestedBy : 'AAA BBB',  startDate : <BW.IDate>new Date(), finishDate : <BW.IDate>new Date()},
+            { id : 12, displayName : 'Test Name 1. Some very long build name',  definition : 'Test Name 1',  statusText : 'Succeeded', filtered : undefined , status : BW.BuildStatus.Succeeded, definitionUrl: '', requestedBy : 'CCC DDD',  startDate : <BW.IDate>new Date(), finishDate : <BW.IDate>new Date()},
+            { id : 13, displayName : 'Test Name 1. Another long name',  definition : 'Test Name 1',   statusText : 'Failed', filtered : undefined , status : BW.BuildStatus.Failed, definitionUrl: '', requestedBy : 'DD EEEE',  startDate : <BW.IDate>new Date(), finishDate : <BW.IDate>new Date()},
+            { id : 14, displayName : 'Test Name 1. Truk.Ci.Cti.Local',  definition : 'Test Name 1',   statusText : 'NotStarted', filtered : undefined , status : BW.BuildStatus.NotStarted, definitionUrl: '', requestedBy : 'GFFF GGG',  startDate : <BW.IDate>new Date(), finishDate : <BW.IDate>new Date()},
+            { id : 15, displayName : 'Test Name 1. Testing build length',  definition : 'Test Name 1',   statusText : 'Stopped', filtered : undefined, status : BW.BuildStatus.Stopped , definitionUrl: '', requestedBy : 'KKK LLL',  startDate : <BW.IDate>new Date(), finishDate : <BW.IDate>new Date()},
+            { id : 16, displayName : 'Test Name 1',  definition : 'Test Name 1',   statusText : 'PartiallySucceeded', filtered : undefined , status : BW.BuildStatus.PartiallySucceeded, definitionUrl: '', requestedBy : 'MMM ooo',  startDate : <BW.IDate>new Date(), finishDate : <BW.IDate>new Date()},
+            { id : 17, displayName : 'Test Name 1',  definition : 'Test Name 1',   statusText : 'All', filtered : undefined , status : BW.BuildStatus.All, definitionUrl: '', requestedBy : 'Test User',  startDate : <BW.IDate>new Date(), finishDate : <BW.IDate>new Date()},
+            { id : 18, displayName : 'Test Name 1',  definition : 'Test Name 1',   statusText : 'None', filtered : undefined , status : BW.BuildStatus.None, definitionUrl: '', requestedBy : 'User with Name',  startDate : <BW.IDate>new Date(), finishDate : <BW.IDate>new Date()},
+            { id : 19, displayName : 'Test Name 1',  definition : 'Test Name 1',   statusText : 'NotStarted', filtered : undefined , status : BW.BuildStatus.NotStarted, definitionUrl: '', requestedBy : 'Another User',  startDate : <BW.IDate>new Date(), finishDate : <BW.IDate>new Date()},
+            { id : 20, displayName : 'Test Name 1',  definition : 'Test Name 1',   statusText : 'Succeeded', filtered :undefined, status : BW.BuildStatus.Succeeded, definitionUrl: '', requestedBy : 'One more User',  startDate : <BW.IDate>new Date(), finishDate : <BW.IDate>new Date()}
+
         ];
 
-        private _lastSent = [];
+        private _lastSentDefinitions = [];
+        private _lastSentBuilds = [];
 
 
-        public statusNotification() : Rx.IObservable<Array<BW.IBuildDefinition>> {
+        public statusNotification() : Rx.IObservable<BW.INotificationResult<Array<BW.IBuildDefinition>>> {
 
             return Rx.Observable.interval(5000)
-                .map<Array<BW.IBuildDefinition>>((value, index : number, source) => {
-                return this._lastSent.filter(item => item.isSelected)
-                            .map(item => this.copyDefinitionData(item, false));
+                .map<BW.INotificationResult<Array<BW.IBuildDefinition>>>((value, index : number, source) => {
+
+                return {
+                    data : this._lastSentBuilds,
+                    success : true,
+                    error : undefined
+                };
             });
         }
 
-        public listNotification() : Rx.IObservable<Array<BW.IBuildDefinitionInfo>> {
-
-            return Rx.Observable.interval(5000)
-                .map<Array<BW.IBuildDefinitionInfo>>((value, index : number, source) => {
+        public listNotification() : Rx.IObservable<BW.INotificationResult<Array<BW.IBuildDefinitionInfo>>> {
 
 
-                if(index % 5 == 0) {
-                    this._lastSent =  this._definitions.filter(item => item.id % 2 === 0)
-                        .map(item => this.copyDefinitionData(item));
-                } else
+            return Rx.Observable.create(observer => {
 
-                if(index % 9 == 0) {
-                    this._lastSent =  this._definitions.filter(item => item.id % 3 === 0)
-                        .map(item => this.copyDefinitionData(item));
-                } else
-
-                this._lastSent =  this._definitions
+                var lastSentDefinitions =  this._definitions
                     .map(item => this.copyDefinitionData(item));
 
-                return this._lastSent;
+                observer.onNext({
+                    data : lastSentDefinitions,
+                    success : true,
+                    error : undefined
+                });
+                observer.onCompleted();
             });
         }
 
         public setListNotificationFilter(definitions : Array<BW.IBuildDefinitionInfo>) : void {
 
-            definitions.forEach(item => {
 
-                this._lastSent.filter(serviceDefinition => serviceDefinition.id === item.id)
-                .forEach(serviceDefinition  => serviceDefinition.isSelected = item.isSelected);
+            var filtered =  definitions.filter(item => item.filtered);
 
-            });
+            this._lastSentBuilds = this._definitions.filter(item => filtered.some(fItem => fItem.id == item.id))
+                .map(item => this.copyDefinitionData(item));
+
         }
 
-        private copyDefinitionData(definition : IBuildDefinition, copySelectedField = true) : IBuildDefinition {
+        private copyDefinitionData(definition : IBuildDefinition) : IBuildDefinition {
             return {
                 id : definition.id,
-                name : definition.name ,
-                isSelected : copySelectedField ? definition.isSelected : undefined ,
+                displayName : definition.displayName,
                 status : definition.status,
-                url: definition.url,
-                triggeredBy: definition.triggeredBy
+                statusText : definition.statusText,
+                definitionUrl: definition.definitionUrl,
+                requestedBy: definition.requestedBy,
+                definition : definition.definition,
+                startDate : definition.startDate,
+                finishDate : definition.finishDate
             };
         }
     }

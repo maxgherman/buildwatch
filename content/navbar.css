@@ -120,7 +120,7 @@
 }
 
 .navbar .context .item .list .trancate-text {
-    width: 220px;
+    width: 260px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -142,6 +142,29 @@
 
 .navbar .context .item .apply {
     padding-top: 25px;
+}
+
+.navbar .btn {
+    width : 100%;
+}
+
+
+.navbar .context .item .build-details {
+    padding-left: 5px;
+}
+
+.navbar .context .item .build-details .row {
+    padding-top: 10px;
+}
+
+.navbar .context .item .build-details span.field-name {
+    font-size: 1.0em;
+}
+
+.navbar .context .item .build-details span.field {
+    background-color: rgba(0, 0, 0, 0.44);
+    font-size: 1.3em;
+    display: block;
 }
 
 

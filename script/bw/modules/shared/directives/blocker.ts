@@ -1,7 +1,6 @@
 
 'use strict';
 
-
 module BW.Modules.Shared.Directives {
 
     export class Blocker {

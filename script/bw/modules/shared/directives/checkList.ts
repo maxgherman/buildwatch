@@ -17,6 +17,7 @@ module BW.Modules.Shared.Directives {
         orderBuildChange : () => void;
         selectAllChange: () => void;
         selectChange : () => void;
+        checkChanged : () =>void;
     }
 
 
@@ -30,15 +31,20 @@ module BW.Modules.Shared.Directives {
                 scope : {
                   items : '=',
                   displayName : '@',
-                  checkName : '@'
+                  checkName : '@',
+                  checkChanged : '&'
                 },
-                controller: ['$scope', 'itemNameFilter', 'buildListHelperService', this.controller]
+                controller: ['$scope',
+                             'itemNameFilter',
+                             'buildListHelperService',
+                             'storageHelperService', this.controller]
             };
         }
 
         private controller($scope : IScope,
                            itemNameFilter : BW.INameFilter,
-                           listHelperService : BW.IBuildListHelperService) {
+                           listHelperService : BW.IBuildListHelperService,
+                           storageHelperService : BW.ILocalStorageService) {
 
             $scope.filteredItemName = '';
             $scope.reverseOrder = false;
@@ -55,7 +61,9 @@ module BW.Modules.Shared.Directives {
 
                 var filtered = itemNameFilter($scope.items, $scope.filteredItemName);
 
-                filtered.forEach(item => item.isSelected = selectedValue);
+                filtered.forEach(item => item.filtered = selectedValue);
+
+                $scope.checkChanged();
             }
 
             $scope.$watch('items', (newValue, oldValue) => {
@@ -63,7 +71,7 @@ module BW.Modules.Shared.Directives {
                 $scope.selectAll = listHelperService.all(newValue);
 
             }, true);
-        }
+         }
     }
 
 }

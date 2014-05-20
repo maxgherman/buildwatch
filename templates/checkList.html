@@ -19,7 +19,7 @@
 
         <div class="checkbox trancate-text" data-ng-repeat="item in items | itemName : filteredItemName | orderByName:reverseOrder" >
             <label>
-                <input type="checkbox" data-ng-model="item[checkName]"/> {{item[displayName]}}
+                <input type="checkbox" data-ng-model="item[checkName]" data-ng-change="checkChanged()" /> {{item[displayName]}}
             </label>
         </div>
 

@@ -43,8 +43,11 @@
 
         if (el && !update) {
             this.data = el.offset();
-            this.data.width = el.width();
-            this.data.height = el.height();
+
+            if(this.data) {
+                this.data.width = el.width();
+                this.data.height = el.height();
+            }
         }
 
         if (el && update && !not_update_offsets) {

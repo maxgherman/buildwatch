@@ -14,11 +14,11 @@ var BW;
                         });
 
                         result.sort(function (a, b) {
-                            if (a && b && a.name && b.name) {
-                                return a.name > b.name ? 1 : (a.name > b.name ? -1 : 0);
+                            if (a && b && a.displayName && b.displayName) {
+                                return a.displayName > b.displayName ? 1 : (a.displayName > b.displayName ? -1 : 0);
                             }
 
-                            if (a && a.name) {
+                            if (a && a.displayName) {
                                 return 1;
                             }
 

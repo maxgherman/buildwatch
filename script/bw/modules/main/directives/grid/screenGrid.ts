@@ -4,7 +4,6 @@
 
 'use strict';
 
-
 module BW.Modules.Main.Directives.Grid {
 
     export class ScreenGrid {
@@ -21,12 +20,13 @@ module BW.Modules.Main.Directives.Grid {
             return {
                 restrict: 'E',
                 scope: {
+                    currentBuildId : '=',
                     totalColumns: '=',
                     builds: '=',
                     margin: '=',
                     maxItemHeigth : '='
                 },
-                templateUrl: 'templates/grid.html',
+                templateUrl: 'templates/grid/grid.html',
                 link: self.link.bind(self)
             };
         }
@@ -42,6 +42,14 @@ module BW.Modules.Main.Directives.Grid {
                 margin: $scope.margin,
                 maxItemHeight : $scope.maxItemHeigth
             }, self._grid);
+
+            self._grid.buildClick = id => {
+
+                $scope.$apply(() => {
+                    $scope.currentBuildId = id;
+                });
+            };
+
 
             $(self._window).resize(function() {
                 self._gridRenderService.render();

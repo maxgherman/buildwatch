@@ -4,7 +4,6 @@
 
 'use strict';
 
-
 module BW.Modules.Shared.Directives.NavTab {
 
    interface IScope extends ng.IScope {

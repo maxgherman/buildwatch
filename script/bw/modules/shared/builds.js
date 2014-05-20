@@ -6,6 +6,11 @@
 (function (ang) {
     var mainModule = ang.module('builds', ['shared']);
 
+    mainModule.config([
+        'localStorageServiceProvider', function (localStorageServiceProvider) {
+            localStorageServiceProvider.setPrefix('BW');
+        }]);
+
     mainModule.factory('buildService', function () {
         return new BW.Infrastructure.BuildService();
     });

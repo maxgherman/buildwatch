@@ -10,6 +10,10 @@
 
     var mainModule = ang.module('builds', ['shared']);
 
+    mainModule.config(['localStorageServiceProvider', localStorageServiceProvider => {
+        localStorageServiceProvider.setPrefix('BW');
+    }]);
+
     mainModule.factory('buildService', () => new BW.Infrastructure.BuildService());
 
     mainModule.provider('buildServiceWrapper', () =>  new BW.Modules.Shared.Services.BuildServiceWrapper().execute());

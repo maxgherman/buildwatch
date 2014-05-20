@@ -1,6 +1,9 @@
 
 /// <reference path='../../../../d.ts/bw.d' />
 
+'use strict';
+
+
 module BW.Infrastructure.Grid {
 
     export class GridRenderService implements BW.IGridRenderService{
@@ -9,6 +12,7 @@ module BW.Infrastructure.Grid {
         private _builds:Array<BW.IBuildDefinition>;
         private _margin:number;
         private _maxItemHeight:number;
+
 
         public get columns():number {
             return this._columns;
@@ -48,6 +52,7 @@ module BW.Infrastructure.Grid {
             this._margin = renderData.margin;
             this._maxItemHeight = renderData.maxItemHeight;
             this._grid = grid;
+            this._grid.buildStatusToCss = this.buildStatusToCss;
         }
 
 
@@ -63,7 +68,7 @@ module BW.Infrastructure.Grid {
 
                 self.renderGrid(widgetSize, gridSize);
 
-            }, 10);
+            }, 5);
         }
 
         private getGridSize():BW.IGridSize {
@@ -99,21 +104,7 @@ module BW.Infrastructure.Grid {
 
         private renderGrid(widgetSize:BW.ISize, gridSize:BW.IGridSize) {
 
-            var self = this;
-
-            self._grid.renderGrid(widgetSize, self._margin);
-
-            var index = 0;
-            for (var i = 1; i <= gridSize.rows; i++) {
-                for (var j = 1; j <= gridSize.columns; j++) {
-
-                    if (index === self._builds.length) continue;
-
-                    var build = self._builds[index++];
-
-                    self._grid.addWidget(build, { rows: 1, columns: 1}, j, i);
-                }
-            }
+            this._grid.renderGrid(widgetSize, gridSize, this._margin, this.builds);
         }
 
         public update(builds) {
@@ -139,7 +130,7 @@ module BW.Infrastructure.Grid {
                 } else {
                     var newBuild = newBuilds[0];
 
-                    if (newBuild.name !== prevBuild.name) {
+                    if (newBuild.displayName !== prevBuild.displayName) {
                         self._grid.updateWidget(newBuild);
                     }
                 }
@@ -169,6 +160,21 @@ module BW.Infrastructure.Grid {
             return builds.filter(function (build) {
                 return build.isSelected;
             });
+        }
+
+        private buildStatusToCss(buildStatus : BW.BuildStatus) {
+
+            switch (buildStatus) {
+                case BW.BuildStatus.None : return 'none';
+                case BW.BuildStatus.All : return 'all';
+                case BW.BuildStatus.Failed : return 'failed';
+                case BW.BuildStatus.InProgress : return 'in-progress';
+                case BW.BuildStatus.NotStarted : return 'not-started';
+                case BW.BuildStatus.PartiallySucceeded : return 'partially-succeeded';
+                case BW.BuildStatus.Stopped: return 'stopped';
+                case BW.BuildStatus.Succeeded : return 'succeeded';
+                default : return '';
+            }
         }
     }
 }

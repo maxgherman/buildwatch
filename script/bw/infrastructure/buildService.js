@@ -6,74 +6,83 @@ var BW;
         var BuildService = (function () {
             function BuildService() {
                 this._definitions = [
-                    { id: 1, name: 'Test 1', isSelected: undefined, status: 1 /* InProgress */, url: '', triggeredBy: 'Test User' },
-                    { id: 2, name: 'Test 2', isSelected: undefined, status: 1 /* InProgress */, url: '', triggeredBy: 'Test User' },
-                    { id: 4, name: 'Test 4', isSelected: undefined, status: 1 /* InProgress */, url: '', triggeredBy: 'Test User' },
-                    { id: 6, name: 'Test 6', isSelected: undefined, status: 1 /* InProgress */, url: '', triggeredBy: 'Test User' },
-                    { id: 3, name: 'Test 3', isSelected: undefined, status: 1 /* InProgress */, url: '', triggeredBy: 'Test User' },
-                    { id: 5, name: 'Test 5', isSelected: undefined, status: 1 /* InProgress */, url: '', triggeredBy: 'Test User' },
-                    { id: 7, name: 'Test 6', isSelected: undefined, status: 1 /* InProgress */, url: '', triggeredBy: 'Test User' },
-                    { id: 8, name: 'Test 7', isSelected: undefined, status: 1 /* InProgress */, url: '', triggeredBy: 'Test User' },
-                    { id: 9, name: 'Test 8', isSelected: undefined, status: 1 /* InProgress */, url: '', triggeredBy: 'Test User' },
-                    { id: 10, name: 'Test 9', isSelected: undefined, status: 1 /* InProgress */, url: '', triggeredBy: 'Test User' }
+                    { id: 2, displayName: 'Test Name 1', definition: 'Test Name 1', statusText: 'InProgress', filtered: undefined, status: 1 /* InProgress */, definitionUrl: '', requestedBy: 'AAA BBB', startDate: new Date(), finishDate: new Date() },
+                    { id: 1, displayName: 'Test Name 1. Some very long build name', definition: 'Test Name 1', statusText: 'Succeeded', filtered: undefined, status: 2 /* Succeeded */, definitionUrl: '', requestedBy: 'CCC DDD', startDate: new Date(), finishDate: new Date() },
+                    { id: 4, displayName: 'Test Name 1. Another long name', definition: 'Test Name 1', statusText: 'Failed', filtered: undefined, status: 8 /* Failed */, definitionUrl: '', requestedBy: 'DD EEEE', startDate: new Date(), finishDate: new Date() },
+                    { id: 6, displayName: 'Test Name 1. Truk.Ci.Cti.Local', definition: 'Test Name 1', statusText: 'NotStarted', filtered: undefined, status: 32 /* NotStarted */, definitionUrl: '', requestedBy: 'GFFF GGG', startDate: new Date(), finishDate: new Date() },
+                    { id: 3, displayName: 'Test Name 1. Testing build length', definition: 'Test Name 1', statusText: 'Stopped', filtered: undefined, status: 16 /* Stopped */, definitionUrl: '', requestedBy: 'KKK LLL', startDate: new Date(), finishDate: new Date() },
+                    { id: 5, displayName: 'Test Name 1', definition: 'Test Name 1', statusText: 'PartiallySucceeded', filtered: undefined, status: 4 /* PartiallySucceeded */, definitionUrl: '', requestedBy: 'MMM ooo', startDate: new Date(), finishDate: new Date() },
+                    { id: 7, displayName: 'Test Name 1', definition: 'Test Name 1', statusText: 'All', filtered: undefined, status: 63 /* All */, definitionUrl: '', requestedBy: 'Test User', startDate: new Date(), finishDate: new Date() },
+                    { id: 8, displayName: 'Test Name 1', definition: 'Test Name 1', statusText: 'None', filtered: undefined, status: 0 /* None */, definitionUrl: '', requestedBy: 'User with Name', startDate: new Date(), finishDate: new Date() },
+                    { id: 9, displayName: 'Test Name 1', definition: 'Test Name 1', statusText: 'NotStarted', filtered: undefined, status: 32 /* NotStarted */, definitionUrl: '', requestedBy: 'Another User', startDate: new Date(), finishDate: new Date() },
+                    { id: 10, displayName: 'Test Name 1', definition: 'Test Name 1', statusText: 'Succeeded', filtered: undefined, status: 2 /* Succeeded */, definitionUrl: '', requestedBy: 'One more User', startDate: new Date(), finishDate: new Date() },
+                    { id: 11, displayName: 'Test Name 1', definition: 'Test Name 1', statusText: 'InProgress', filtered: undefined, status: 1 /* InProgress */, definitionUrl: '', requestedBy: 'AAA BBB', startDate: new Date(), finishDate: new Date() },
+                    { id: 12, displayName: 'Test Name 1. Some very long build name', definition: 'Test Name 1', statusText: 'Succeeded', filtered: undefined, status: 2 /* Succeeded */, definitionUrl: '', requestedBy: 'CCC DDD', startDate: new Date(), finishDate: new Date() },
+                    { id: 13, displayName: 'Test Name 1. Another long name', definition: 'Test Name 1', statusText: 'Failed', filtered: undefined, status: 8 /* Failed */, definitionUrl: '', requestedBy: 'DD EEEE', startDate: new Date(), finishDate: new Date() },
+                    { id: 14, displayName: 'Test Name 1. Truk.Ci.Cti.Local', definition: 'Test Name 1', statusText: 'NotStarted', filtered: undefined, status: 32 /* NotStarted */, definitionUrl: '', requestedBy: 'GFFF GGG', startDate: new Date(), finishDate: new Date() },
+                    { id: 15, displayName: 'Test Name 1. Testing build length', definition: 'Test Name 1', statusText: 'Stopped', filtered: undefined, status: 16 /* Stopped */, definitionUrl: '', requestedBy: 'KKK LLL', startDate: new Date(), finishDate: new Date() },
+                    { id: 16, displayName: 'Test Name 1', definition: 'Test Name 1', statusText: 'PartiallySucceeded', filtered: undefined, status: 4 /* PartiallySucceeded */, definitionUrl: '', requestedBy: 'MMM ooo', startDate: new Date(), finishDate: new Date() },
+                    { id: 17, displayName: 'Test Name 1', definition: 'Test Name 1', statusText: 'All', filtered: undefined, status: 63 /* All */, definitionUrl: '', requestedBy: 'Test User', startDate: new Date(), finishDate: new Date() },
+                    { id: 18, displayName: 'Test Name 1', definition: 'Test Name 1', statusText: 'None', filtered: undefined, status: 0 /* None */, definitionUrl: '', requestedBy: 'User with Name', startDate: new Date(), finishDate: new Date() },
+                    { id: 19, displayName: 'Test Name 1', definition: 'Test Name 1', statusText: 'NotStarted', filtered: undefined, status: 32 /* NotStarted */, definitionUrl: '', requestedBy: 'Another User', startDate: new Date(), finishDate: new Date() },
+                    { id: 20, displayName: 'Test Name 1', definition: 'Test Name 1', statusText: 'Succeeded', filtered: undefined, status: 2 /* Succeeded */, definitionUrl: '', requestedBy: 'One more User', startDate: new Date(), finishDate: new Date() }
                 ];
-                this._lastSent = [];
+                this._lastSentDefinitions = [];
+                this._lastSentBuilds = [];
             }
             BuildService.prototype.statusNotification = function () {
                 var _this = this;
                 return Rx.Observable.interval(5000).map(function (value, index, source) {
-                    return _this._lastSent.filter(function (item) {
-                        return item.isSelected;
-                    }).map(function (item) {
-                        return _this.copyDefinitionData(item, false);
-                    });
+                    return {
+                        data: _this._lastSentBuilds,
+                        success: true,
+                        error: undefined
+                    };
                 });
             };
 
             BuildService.prototype.listNotification = function () {
                 var _this = this;
-                return Rx.Observable.interval(5000).map(function (value, index, source) {
-                    if (index % 5 == 0) {
-                        _this._lastSent = _this._definitions.filter(function (item) {
-                            return item.id % 2 === 0;
-                        }).map(function (item) {
-                            return _this.copyDefinitionData(item);
-                        });
-                    } else if (index % 9 == 0) {
-                        _this._lastSent = _this._definitions.filter(function (item) {
-                            return item.id % 3 === 0;
-                        }).map(function (item) {
-                            return _this.copyDefinitionData(item);
-                        });
-                    } else
-                        _this._lastSent = _this._definitions.map(function (item) {
-                            return _this.copyDefinitionData(item);
-                        });
+                return Rx.Observable.create(function (observer) {
+                    var lastSentDefinitions = _this._definitions.map(function (item) {
+                        return _this.copyDefinitionData(item);
+                    });
 
-                    return _this._lastSent;
+                    observer.onNext({
+                        data: lastSentDefinitions,
+                        success: true,
+                        error: undefined
+                    });
+                    observer.onCompleted();
                 });
             };
 
             BuildService.prototype.setListNotificationFilter = function (definitions) {
                 var _this = this;
-                definitions.forEach(function (item) {
-                    _this._lastSent.filter(function (serviceDefinition) {
-                        return serviceDefinition.id === item.id;
-                    }).forEach(function (serviceDefinition) {
-                        return serviceDefinition.isSelected = item.isSelected;
+                var filtered = definitions.filter(function (item) {
+                    return item.filtered;
+                });
+
+                this._lastSentBuilds = this._definitions.filter(function (item) {
+                    return filtered.some(function (fItem) {
+                        return fItem.id == item.id;
                     });
+                }).map(function (item) {
+                    return _this.copyDefinitionData(item);
                 });
             };
 
-            BuildService.prototype.copyDefinitionData = function (definition, copySelectedField) {
-                if (typeof copySelectedField === "undefined") { copySelectedField = true; }
+            BuildService.prototype.copyDefinitionData = function (definition) {
                 return {
                     id: definition.id,
-                    name: definition.name,
-                    isSelected: copySelectedField ? definition.isSelected : undefined,
+                    displayName: definition.displayName,
                     status: definition.status,
-                    url: definition.url,
-                    triggeredBy: definition.triggeredBy
+                    statusText: definition.statusText,
+                    definitionUrl: definition.definitionUrl,
+                    requestedBy: definition.requestedBy,
+                    definition: definition.definition,
+                    startDate: definition.startDate,
+                    finishDate: definition.finishDate
                 };
             };
             return BuildService;

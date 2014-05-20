@@ -3,6 +3,7 @@
 
 'use strict';
 
+
 module BW.Modules.Shared.Filters {
 
     export interface IItemName {
@@ -11,12 +12,16 @@ module BW.Modules.Shared.Filters {
 
     export class ItemName implements IItemName {
 
-        public execute(data : Array<BW.IBuildDefinitionInfo>,  name : string) : Array<BW.IBuildDefinitionInfo> {
+        public execute(data : Array<BW.IBuildDefinition>,  name : string) : Array<BW.IBuildDefinition> {
+
+            var searchValue = name.toLowerCase();
 
             return data.filter(item => {
 
-                return item && item.name ? item.name.indexOf(name) >= 0 : false;
-
+                return item &&
+                ( (item.displayName && item.displayName.toLowerCase().indexOf(searchValue) >= 0) ||
+                   (item.requestedBy && item.requestedBy.toLowerCase().indexOf(searchValue) >= 0)
+                );
             });
 
         }

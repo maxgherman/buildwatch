@@ -9,8 +9,8 @@ module BW.Infrastructure {
     export class BuildListHelperService extends BW.Infrastructure.ListHelperService implements BW.IBuildListHelperService{
 
         private _defaultComparer = (a,b) => a.id == b.id;
-        private _defaultUpdater = (source, target) => source.isSelected = target.isSelected;
-        private _defaultPredicate = a => a.isSelected;
+        private _defaultUpdater = (source, target) => source.filtered = target.filtered;
+        private _defaultPredicate = a => a.filtered;
 
         public all(list : Array<BW.IBuildDefinition>,
                    predicate = this._defaultPredicate) : boolean {
@@ -37,6 +37,10 @@ module BW.Infrastructure {
         }
 
         public filter(list : Array<BW.IBuildDefinitionInfo>, predicate = this._defaultPredicate) : Array<BW.IBuildDefinitionInfo> {
+            return super.filter(list, predicate);
+        }
+
+        public filterDefinitions(list : Array<BW.IBuildDefinition>, predicate = this._defaultPredicate) : Array<BW.IBuildDefinition> {
             return super.filter(list, predicate);
         }
     }

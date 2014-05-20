@@ -3,7 +3,6 @@
 
 'use strict';
 
-
  module BW.Modules.Shared.Filters {
 
 
@@ -17,12 +16,12 @@
              result.sort((a, b) => {
 
                  if (a && b &&
-                     a.name && b.name) {
-                     return a.name > b.name ? 1 : (a.name > b.name ? -1 : 0);
+                     a.displayName && b.displayName) {
+                     return a.displayName > b.displayName ? 1 : (a.displayName > b.displayName ? -1 : 0);
                  }
 
                  if (a &&
-                     a.name) {
+                     a.displayName) {
                      return 1;
                  }
 

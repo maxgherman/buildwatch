@@ -17,10 +17,10 @@ var BW;
                     return a.id == b.id;
                 };
                 this._defaultUpdater = function (source, target) {
-                    return source.isSelected = target.isSelected;
+                    return source.filtered = target.filtered;
                 };
                 this._defaultPredicate = function (a) {
-                    return a.isSelected;
+                    return a.filtered;
                 };
             }
             BuildListHelperService.prototype.all = function (list, predicate) {
@@ -41,6 +41,11 @@ var BW;
             };
 
             BuildListHelperService.prototype.filter = function (list, predicate) {
+                if (typeof predicate === "undefined") { predicate = this._defaultPredicate; }
+                return _super.prototype.filter.call(this, list, predicate);
+            };
+
+            BuildListHelperService.prototype.filterDefinitions = function (list, predicate) {
                 if (typeof predicate === "undefined") { predicate = this._defaultPredicate; }
                 return _super.prototype.filter.call(this, list, predicate);
             };

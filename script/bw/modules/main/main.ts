@@ -11,7 +11,8 @@
     var mainModule = ang.module('main', ['builds']);
 
     mainModule.controller('MainCtrl',
-        ['buildServiceWrapper','buildListHelperService', (x, y) => new BW.Modules.Main.Controllers.MainController(x, y) ]);
+        ['buildServiceWrapper','buildListHelperService', 'storageHelperService', 'dateService',
+            (x, y, z, d) => new BW.Modules.Main.Controllers.MainController(x, y, z) ]);
 
     mainModule.factory('uiGrid',  () => BW.Modules.Main.Directives.Grid.UIGrid);
 

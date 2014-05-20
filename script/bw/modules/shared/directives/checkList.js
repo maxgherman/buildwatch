@@ -16,13 +16,18 @@ var BW;
                             scope: {
                                 items: '=',
                                 displayName: '@',
-                                checkName: '@'
+                                checkName: '@',
+                                checkChanged: '&'
                             },
-                            controller: ['$scope', 'itemNameFilter', 'buildListHelperService', this.controller]
+                            controller: [
+                                '$scope',
+                                'itemNameFilter',
+                                'buildListHelperService',
+                                'storageHelperService', this.controller]
                         };
                     };
 
-                    CheckList.prototype.controller = function ($scope, itemNameFilter, listHelperService) {
+                    CheckList.prototype.controller = function ($scope, itemNameFilter, listHelperService, storageHelperService) {
                         $scope.filteredItemName = '';
                         $scope.reverseOrder = false;
                         $scope.selectAll = false;
@@ -37,8 +42,10 @@ var BW;
                             var filtered = itemNameFilter($scope.items, $scope.filteredItemName);
 
                             filtered.forEach(function (item) {
-                                return item.isSelected = selectedValue;
+                                return item.filtered = selectedValue;
                             });
+
+                            $scope.checkChanged();
                         };
 
                         $scope.$watch('items', function (newValue, oldValue) {

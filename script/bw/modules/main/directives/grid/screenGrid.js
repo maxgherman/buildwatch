@@ -21,12 +21,13 @@ var BW;
                             return {
                                 restrict: 'E',
                                 scope: {
+                                    currentBuildId: '=',
                                     totalColumns: '=',
                                     builds: '=',
                                     margin: '=',
                                     maxItemHeigth: '='
                                 },
-                                templateUrl: 'templates/grid.html',
+                                templateUrl: 'templates/grid/grid.html',
                                 link: self.link.bind(self)
                             };
                         };
@@ -41,6 +42,12 @@ var BW;
                                 margin: $scope.margin,
                                 maxItemHeight: $scope.maxItemHeigth
                             }, self._grid);
+
+                            self._grid.buildClick = function (id) {
+                                $scope.$apply(function () {
+                                    $scope.currentBuildId = id;
+                                });
+                            };
 
                             $(self._window).resize(function () {
                                 self._gridRenderService.render();

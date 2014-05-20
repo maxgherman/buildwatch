@@ -14,6 +14,9 @@ var BW;
                             return {
                                 restrict: 'E',
                                 transclude: true,
+                                scope: {
+                                    onOpen: '&'
+                                },
                                 templateUrl: 'templates/navtab/navtab.html',
                                 controller: ['$scope', NavTabsController]
                             };
@@ -29,11 +32,25 @@ var BW;
                         $scope.activeTab = undefined; //  $scope.tabs[0];
 
                         $scope.changeNavState = function () {
-                            $scope.isCollapsed = !$scope.isCollapsed;
+                            if ($scope.isOpenedNav()) {
+                                $scope.closeNav();
+                            } else {
+                                $scope.openNav();
+                            }
                         };
 
                         $scope.openNav = function () {
                             $scope.isCollapsed = false;
+
+                            $scope.onOpen();
+                        };
+
+                        $scope.closeNav = function () {
+                            $scope.isCollapsed = true;
+                        };
+
+                        $scope.isOpenedNav = function () {
+                            return $scope.isCollapsed === false;
                         };
 
                         $scope.isActiveTab = function (id) {

@@ -6,8 +6,10 @@
 (function (ang) {
     var mainModule = ang.module('main', ['builds']);
 
-    mainModule.controller('MainCtrl', ['buildServiceWrapper', 'buildListHelperService', function (x, y) {
-            return new BW.Modules.Main.Controllers.MainController(x, y);
+    mainModule.controller('MainCtrl', [
+        'buildServiceWrapper', 'buildListHelperService', 'storageHelperService', 'dateService',
+        function (x, y, z, d) {
+            return new BW.Modules.Main.Controllers.MainController(x, y, z);
         }]);
 
     mainModule.factory('uiGrid', function () {

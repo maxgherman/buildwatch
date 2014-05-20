@@ -9,8 +9,10 @@ var BW;
                     function ItemName() {
                     }
                     ItemName.prototype.execute = function (data, name) {
+                        var searchValue = name.toLowerCase();
+
                         return data.filter(function (item) {
-                            return item && item.name ? item.name.indexOf(name) >= 0 : false;
+                            return item && ((item.displayName && item.displayName.toLowerCase().indexOf(searchValue) >= 0) || (item.requestedBy && item.requestedBy.toLowerCase().indexOf(searchValue) >= 0));
                         });
                     };
                     return ItemName;

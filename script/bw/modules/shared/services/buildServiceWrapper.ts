@@ -1,34 +1,30 @@
 /// <reference path='../../../../../d.ts/bw.d' />
+/// <reference path='../../../../../d.ts/angular.d.ts' />
 /// <reference path='../../../infrastructure/buildService' />
 
 'use strict';
 
 module BW.Modules.Shared.Services {
 
-
-    interface IRootScope {
-        $apply(action : () => void);
-    }
-
-    export class BuildServiceWrapper {
+   export class BuildServiceWrapper {
 
         public execute() {
 
             var body = this.body.bind(this);
 
             return {
-               $get : ['$rootScope', 'buildService',  body]
-        };
+               $get : ['$rootScope', 'buildService', body]
+            };
 
         }
 
-        private body($rootScope : IRootScope, buildService : BW.IBuildService) : BW.IBuildServiceExternal {
+        private body($rootScope : ng.IScope, buildService : BW.IBuildService) : BW.IBuildServiceExternal {
 
             var self = this;
 
             return  <BW.IBuildServiceExternal>{
 
-                statusNotification(onData : (states : Array<BW.IBuildDefinitionInfo>) => void,
+                statusNotification(onData : (result : BW.INotificationResult<Array<BW.IBuildDefinitionInfo>>) => void,
                                    onError : (error : Error) => void) : void {
 
                     buildService.statusNotification()
@@ -39,12 +35,14 @@ module BW.Modules.Shared.Services {
                         },
                         error => {
 
+                            console.error(error.toString());
+
                             self.applyScope($rootScope, error, onError);
                         }
                     );
                 },
 
-                listNotification(onData : (states : Array<BW.IBuildDefinitionInfo>) => void,
+                listNotification(onData : (result : BW.INotificationResult<Array<BW.IBuildDefinitionInfo>>) => void,
                                  onError : (error : Error) => void) : void {
 
                     buildService.listNotification()
@@ -54,6 +52,8 @@ module BW.Modules.Shared.Services {
                             self.applyScope($rootScope, list, onData);
                         },
                         error => {
+
+                            console.error(error.toString());
 
                             self.applyScope($rootScope, error, onError);
                         }
@@ -68,12 +68,17 @@ module BW.Modules.Shared.Services {
             }
         }
 
-        private applyScope<R>($rootScope : IRootScope, data : R, action : (data : R) => void) {
+        private applyScope<R>($rootScope : ng.IScope, data : R, action : (data : R) => void) {
 
-            $rootScope.$apply(() => {
+            var phase = $rootScope.$$phase;
+            if(phase == '$apply' || phase == '$digest') {
                 action(data);
-            });
+            } else {
 
+                $rootScope.$apply(() => {
+                    action(data);
+                });
+            }
         }
     }
 

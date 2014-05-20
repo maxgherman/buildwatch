@@ -4,6 +4,7 @@
 
 'use strict';
 
+
 module BW.Modules.Shared.Directives.NavTab {
 
     interface IScope extends ng.IScope {
@@ -13,7 +14,10 @@ module BW.Modules.Shared.Directives.NavTab {
         changeNavState() : void;
         openNav () : void;
         isActiveTab (id: number) : boolean;
+        isOpenedNav() : boolean;
+        closeNav() : void;
         activateTab(id: number) : void;
+        onOpen() : void;
     }
 
 
@@ -24,6 +28,10 @@ module BW.Modules.Shared.Directives.NavTab {
             return {
                 restrict: 'E',
                 transclude: true,
+                scope : {
+                    onOpen : '&'
+                },
+
                 templateUrl: 'templates/navtab/navtab.html',
                 controller: ['$scope',  NavTabsController]
             };
@@ -39,11 +47,26 @@ module BW.Modules.Shared.Directives.NavTab {
 
 
             $scope.changeNavState = () => {
-                $scope.isCollapsed = !$scope.isCollapsed;
+
+                if($scope.isOpenedNav()) {
+                    $scope.closeNav();
+                } else {
+                    $scope.openNav();
+                }
             };
 
             $scope.openNav = () => {
                 $scope.isCollapsed = false;
+
+                $scope.onOpen();
+            };
+
+            $scope.closeNav = () => {
+                $scope.isCollapsed = true;
+            };
+
+            $scope.isOpenedNav = () => {
+                return $scope.isCollapsed === false;
             };
 
             $scope.isActiveTab = (id : number) => {
