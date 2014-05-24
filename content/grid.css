@@ -13,6 +13,7 @@
     -webkit-box-shadow: 7px 7px 5px 0px rgba(50, 50, 50, 0.75);
     -moz-box-shadow:    7px 7px 5px 0px rgba(50, 50, 50, 0.75);
     box-shadow:         7px 7px 5px 0px rgba(50, 50, 50, 0.75);
+
 }
 
 .gridster > ul > li > div {
@@ -118,10 +119,61 @@ div.in-progress
     -webkit-animation-iteration-count: infinite;
 }
 
+
+.gridster > ul > li:before {
+    font-family:"Glyphicons Halflings";
+    position: absolute;
+    top: calc(100% - 1.5em);
+    right: calc(0.5em);
+    font-size: 1.5em;
+    text-shadow: 0px 3px 8px #2a2a2a;
+    text-decoration: none;
+    color:#ffffff;
+}
+
+li.stopped:before{
+    content:"\e074";
+}
+
+li.not-started:before {
+    content: "\e063";
+}
+
+li.none:before{
+    content:"\e085";
+}
+
+li.all:before{
+    content:"\e181";
+}
+
+li.partially-succeeded:before{
+    content: "\e101";
+}
+
+li.failed:before{
+    content:"\e014";
+}
+
+li.succeeded:before {
+    content:"\e013";
+}
+
+li.in-progress:before {
+    content:"\e031";
+}
+
 div.succeeded, div.failed, div.not-started, div.stopped, div.all, div.none {
     color: rgba(11, 8, 8, 0.95);
 }
 
+.fade-in {
+    -webkit-animation: fadein 1s;
+}
+
+.fade-out {
+    -webkit-animation: fadeout 1s;
+}
 
 
 @-webkit-keyframes shine
@@ -134,4 +186,16 @@ div.succeeded, div.failed, div.not-started, div.stopped, div.all, div.none {
     {
         background-position: top right;
     }
+}
+
+
+@-webkit-keyframes fadein {
+    from { opacity: 0.11; }
+    to   { opacity: 1; }
+}
+
+
+@-webkit-keyframes fadeout {
+    from { opacity: 1; }
+    to   { opacity: 0.11; }
 }

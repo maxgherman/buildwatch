@@ -14,6 +14,8 @@ module BW.Modules.Shared.Filters {
 
         public execute(data : Array<BW.IBuildDefinition>,  name : string) : Array<BW.IBuildDefinition> {
 
+            if(!data) return undefined;
+
             var searchValue = name.toLowerCase();
 
             return data.filter(item => {

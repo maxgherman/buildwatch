@@ -6,19 +6,24 @@ var BW;
                 this.extend();
             }
             DateService.prototype.extend = function () {
-                Date.prototype['toFormattedString'] = function (date) {
-                    var padStr = function (i) {
-                        return (i < 10) ? "0" + i : "" + i;
-                    };
+                var self = this;
 
+                if (Date.prototype['toFormattedString'])
+                    return;
+
+                Date.prototype['toFormattedString'] = function (date) {
                     return [
-                        padStr(this.getDate()), '/',
-                        padStr(1 + this.getMonth()), '/',
-                        padStr(this.getFullYear()), ' ',
-                        padStr(this.getHours()), ':',
-                        padStr(this.getMinutes()), ':',
-                        padStr(this.getSeconds())].join('');
+                        self.padStr(this.getDate()), '/',
+                        self.padStr(1 + this.getMonth()), '/',
+                        self.padStr(this.getFullYear()), ' ',
+                        self.padStr(this.getHours()), ':',
+                        self.padStr(this.getMinutes()), ':',
+                        self.padStr(this.getSeconds())].join('');
                 };
+            };
+
+            DateService.prototype.padStr = function (i) {
+                return (i < 10) ? "0" + i : "" + i;
             };
             return DateService;
         })();

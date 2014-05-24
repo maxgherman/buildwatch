@@ -61,7 +61,6 @@ var BW;
                     this._margin = renderData.margin;
                     this._maxItemHeight = renderData.maxItemHeight;
                     this._grid = grid;
-                    this._grid.buildStatusToCss = this.buildStatusToCss;
                 };
 
                 GridRenderService.prototype.render = function () {
@@ -73,7 +72,7 @@ var BW;
 
                     setTimeout(function () {
                         self.renderGrid(widgetSize, gridSize);
-                    }, 5);
+                    });
                 };
 
                 GridRenderService.prototype.getGridSize = function () {
@@ -110,30 +109,18 @@ var BW;
                     this._grid.renderGrid(widgetSize, gridSize, this._margin, this.builds);
                 };
 
-                GridRenderService.prototype.update = function (builds) {
-                    if (this.updateGridForRender(builds))
+                GridRenderService.prototype.update = function (oldBuilds) {
+                    if (this.updateGridForRender(oldBuilds))
                         return;
 
-                    this.updateGridContent(builds);
+                    this.updateGridContent();
                 };
 
-                GridRenderService.prototype.updateGridContent = function (builds) {
+                GridRenderService.prototype.updateGridContent = function () {
                     var self = this;
 
-                    builds.filter(function (prevBuild) {
-                        var newBuilds = self._builds.filter(function (newBuild) {
-                            return newBuild.id === prevBuild.id;
-                        });
-
-                        if (newBuilds.length <= 0) {
-                            self._grid.removeWidget(prevBuild);
-                        } else {
-                            var newBuild = newBuilds[0];
-
-                            if (newBuild.displayName !== prevBuild.displayName) {
-                                self._grid.updateWidget(newBuild);
-                            }
-                        }
+                    self.builds.forEach(function (build) {
+                        self._grid.updateWidget(build);
                     });
                 };
 
@@ -141,47 +128,11 @@ var BW;
                     var self = this;
                     var builds = self._builds;
 
-                    var added = builds.filter(function (newBuild) {
-                        return oldBuilds.filter(function (prevBuild) {
-                            return newBuild.id === prevBuild.id;
-                        }).length <= 0;
-                    });
+                    if (oldBuilds.length === builds.length)
+                        return false;
 
-                    if (added.length > 0) {
-                        self.render();
-                        return true;
-                    }
-
-                    return false;
-                };
-
-                GridRenderService.prototype.filterBuilds = function (builds) {
-                    return builds.filter(function (build) {
-                        return build.isSelected;
-                    });
-                };
-
-                GridRenderService.prototype.buildStatusToCss = function (buildStatus) {
-                    switch (buildStatus) {
-                        case 0 /* None */:
-                            return 'none';
-                        case 63 /* All */:
-                            return 'all';
-                        case 8 /* Failed */:
-                            return 'failed';
-                        case 1 /* InProgress */:
-                            return 'in-progress';
-                        case 32 /* NotStarted */:
-                            return 'not-started';
-                        case 4 /* PartiallySucceeded */:
-                            return 'partially-succeeded';
-                        case 16 /* Stopped */:
-                            return 'stopped';
-                        case 2 /* Succeeded */:
-                            return 'succeeded';
-                        default:
-                            return '';
-                    }
+                    self.render();
+                    return true;
                 };
                 return GridRenderService;
             })();

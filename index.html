@@ -38,6 +38,8 @@
     <script type="text/javascript" src="./script/bw/modules/shared/shared.js"></script>
     <script type="text/javascript" src="./script/bw/modules/shared/builds.js"></script>
 
+
+    <script type="text/javascript" src="./script/bw/modules/shared/directives/buildDetails.js"></script>
     <script type="text/javascript" src="./script/bw/modules/shared/directives/checkList.js"></script>
     <script type="text/javascript" src="./script/bw/modules/shared/directives/blocker.js"></script>
 
@@ -73,6 +75,11 @@
             <input id='totalColumms' type="number" min='1' max='9' class="form-control" data-ng-model='ctrl.totalColumns'>
         </div>
 
+        <div class="form-group col-md-12">
+            <div class="checkbox">
+                <label>    <input type="checkbox" data-ng-model='ctrl.trackBroken' /> Track Broken   </label>
+            </div>
+        </div>
 
         <check-list check-name="filtered"
                     display-name="displayName"
@@ -82,37 +89,7 @@
     </tab>
     <tab header-icon="glyphicon glyphicon-record" name="BUILD DETAILS" >
 
-        <div class="form-group col-md-12">
-
-            <div class="build-details" data-ng-class="{'show' : ctrl.currentBuild, 'hide' : !ctrl.currentBuild}">
-
-                <div class="row">
-                    <span class="field-name">Name</span>
-                    <span class="field" >{{ctrl.currentBuild.displayName}}</span>
-                </div>
-
-                <div class="row">
-                    <span class="field-name">Status</span>
-                    <span class="field" >{{ctrl.currentBuild.statusText}}</span>
-                </div>
-
-                <div class="row">
-                    <span class="field-name">Requested by</span>
-                    <span class="field" >{{ctrl.currentBuild.requestedBy}}</span>
-                </div>
-
-                <div class="row">
-                    <span class="field-name">Start date</span>
-                    <span class="field">{{ctrl.currentBuild.startDate.toFormattedString()}}</span>
-                </div>
-
-                <div class="row">
-                    <span class="field-name">Finish date</span>
-                    <span class="field">{{ctrl.currentBuild.finishDate.toFormattedString()}}</span>
-                </div>
-            </div>
-
-        </div>
+        <build-details build="ctrl.currentBuild" ></build-details>
 
     </tab>
 
@@ -123,6 +100,7 @@
         current-build-id="ctrl.currentBuildId"
         total-columns="ctrl.totalColumns"
         builds="ctrl.builds"
+        track-broken="ctrl.trackBroken"
         margin="7"
         max-item-heigth="400" ></screen-grid>
 

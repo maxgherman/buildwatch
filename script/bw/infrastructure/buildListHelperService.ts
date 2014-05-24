@@ -36,6 +36,21 @@ module BW.Infrastructure {
             return super.update(sourceList, targetList, comparer, updater);
         }
 
+        public updateBroken(list : Array<BW.IBuildDefinition>)  {
+            list.forEach(item => {
+
+                item.filtered = item.status === BW.BuildStatus.Failed ||
+                    item.status == BW.BuildStatus.InProgress;
+            });
+        }
+
+        public updateAll(list : Array<BW.IBuildDefinition>)  {
+            list.forEach(item => {
+
+                item.filtered = true;
+            });
+        }
+
         public filter(list : Array<BW.IBuildDefinitionInfo>, predicate = this._defaultPredicate) : Array<BW.IBuildDefinitionInfo> {
             return super.filter(list, predicate);
         }

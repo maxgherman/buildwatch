@@ -74,6 +74,10 @@
     width:36px;
 }
 
+.navbar a {
+    color:#ffffff;
+}
+
 .navbar .context {
     float: left;
     height: 100%;
@@ -98,7 +102,7 @@
 }
 
 .navbar .context .item .check-list {
-    padding-top: 20px;
+    padding-top: 15px;
     height: 90%;
 }
 

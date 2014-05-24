@@ -9,6 +9,8 @@
      export class OrderByNameFilter {
          public execute(data : Array<BW.IBuildDefinitionInfo>, reverse : boolean) : Array<BW.IBuildDefinitionInfo>{
 
+             if(!data) return undefined;
+
              var result = data.map(item => {
                  return item;
              });

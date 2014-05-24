@@ -12,22 +12,26 @@ module BW.Infrastructure {
 
         private extend() {
 
+            var self = this;
+
+            if(Date.prototype['toFormattedString']) return;
+
             Date.prototype['toFormattedString'] = function(date : Date) : string {
 
-                var padStr = function(i) {
-                    return (i < 10) ? "0" + i : "" + i;
-                };
-
-                return [
-                    padStr(this.getDate()), '/',
-                    padStr(1 + this.getMonth()) , '/',
-                    padStr(this.getFullYear()), ' ',
-                    padStr(this.getHours()) , ':',
-                    padStr(this.getMinutes()) , ':',
-                    padStr(this.getSeconds())].join('');
+               return [
+                    self.padStr(this.getDate()), '/',
+                    self.padStr(1 + this.getMonth()) , '/',
+                    self.padStr(this.getFullYear()), ' ',
+                    self.padStr(this.getHours()) , ':',
+                    self.padStr(this.getMinutes()) , ':',
+                    self.padStr(this.getSeconds())].join('');
             };
 
 
+        }
+
+        private padStr(i : number) : string {
+            return (i < 10) ? "0" + i : "" + i;
         }
 
     }

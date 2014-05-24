@@ -11,6 +11,7 @@ module BW.Modules.Main.Directives.Grid {
         remove_widget(item : JQuery);
         destroy() : void;
         add_widget(htmlString : string, sizeColumns : number, sizeRows : number, column : number, row: number);
+        widgets : Object[];
     }
 
     interface IGridElement extends JQuery {
@@ -30,16 +31,25 @@ module BW.Modules.Main.Directives.Grid {
         private _$dashBoasrd : JQuery;
         private _$gridster : JQuery;
         private _$gridsterList : IGridElement;
-        public buildStatusToCss : (buildStatus : BuildStatus) => string;
         public buildClick : (id: number) => void;
 
         private widgetSize : BW.ISize;
         private headerHeight : number;
         private itemHeight : number;
         private subItemHeight : number;
+        private cssStatuses;
 
         constructor(private _window :JQuery) {
 
+            this.cssStatuses = [];
+            this.cssStatuses[ BW.BuildStatus.None] = 'none';
+            this.cssStatuses[ BW.BuildStatus.All ] = 'all';
+            this.cssStatuses[ BW.BuildStatus.Failed ] = 'failed';
+            this.cssStatuses[ BW.BuildStatus.InProgress ] = 'in-progress';
+            this.cssStatuses[ BW.BuildStatus.NotStarted ] = 'not-started';
+            this.cssStatuses[ BW.BuildStatus.PartiallySucceeded ] = 'partially-succeeded';
+            this.cssStatuses[ BW.BuildStatus.Stopped ] = 'stopped';
+            this.cssStatuses[ BW.BuildStatus.Succeeded ] = 'succeeded';
         }
 
         public load(parent : HTMLElement) {
@@ -91,10 +101,38 @@ module BW.Modules.Main.Directives.Grid {
                     self.addWidget(build, { rows: 1, columns: 1}, j, i);
                 }
             }
+        }
 
-            $(".gridster > ul > li div.in-progress").css('-webkit-background-size', self.widgetSize.height + 'px');
+        private addWidget(build : BW.IBuildDefinition, size : BW.IGridSize, x : number, y : number) {
 
-            $(".gridster > ul > li").click(function(e) {
+            var self = this;
+
+            var statusCss = this.cssStatuses[build.status];
+
+            var buildEl = ['<li class="', statusCss ,'"  data-id="',  build.id ,'"  data-status="'+ build.status +'"  style="font-size:' +this.subItemHeight + 'px">',
+                ' <div class="', statusCss ,'">  ',
+                ' <div class="text-item header" style="height: ', this.headerHeight ,'px; width:', this.widgetSize.width - 20 ,'px; font-size: ', this.headerHeight -10 ,'px" > ',
+                    ' <span>' , build.displayName,'</span> ',
+                ' </div>',
+                ' <div class="text-item status" style="height: ', this.itemHeight ,'px; width:', this.widgetSize.width- 20 ,'px; font-size: ', this.itemHeight -7 ,'px">',
+                    ' <span> Status : </span> <span class="text">' , build.statusText,' </span> </div>',
+                ' <div class="text-item requested-by" style="height: ', this.itemHeight ,'px; width:', this.widgetSize.width - 20,'px; font-size: ', this.itemHeight -7 ,'px"> ' +
+                    '<span> Requested by : </span> <span class="text"> ' , build.requestedBy,' </span> ' +
+                    '</div>',
+                ' <div class="text-item start-date" style="height: ', this.subItemHeight ,'px; width:', this.widgetSize.width - 20,'px; font-size: ', this.subItemHeight -5 ,'px"> ' +
+                    '<span> Start Date : </span> <span class="text"> ' ,build.startDate ?  build.startDate.toFormattedString() : '',' </span> ' +
+                    '</div>',
+                ' <div class="text-item finish-date" style="height: ', this.subItemHeight ,'px; width:', this.widgetSize.width - 20,'px; font-size: ', this.subItemHeight -5 ,'px"> ' +
+                    '<span> Finish Date : </span> <span class="text"> ' , build.finishDate ? build.finishDate.toFormattedString() : '',' </span> ' +
+                    '</div>',
+                ' </div> ',
+                ' </li>'].join('');
+
+            var element = this._gridComponent.add_widget(buildEl, size.columns, size.rows, x, y);
+
+            $("div.in-progress", element).css('-webkit-background-size', this.widgetSize.height + 'px');
+
+            $(element).click(function(e) {
 
                 if(self.buildClick) {
                     var id = $(this).data('id');
@@ -104,36 +142,12 @@ module BW.Modules.Main.Directives.Grid {
             });
         }
 
-        private addWidget(build : BW.IBuildDefinition, size : BW.IGridSize, x : number, y : number) {
-
-            var statusCss = this.buildStatusToCss(build.status);
-
-            var buildEl = ['<li class="', statusCss ,'"  data-id="',  build.id ,'">',
-                             ' <div class="', statusCss ,'">  ',
-                                ' <div class="text-item" style="height: ', this.headerHeight ,'px; width:', this.widgetSize.width - 20 ,'px; font-size: ', this.headerHeight -10 ,'px" > ',
-                                    ' <span>' , build.displayName,'</span> ',
-                                ' </div>',
-                                ' <div class="text-item" style="height: ', this.itemHeight ,'px; width:', this.widgetSize.width- 20 ,'px; font-size: ', this.itemHeight -7 ,'px">',
-                                    ' <span> Status : ' , build.statusText,' </span> </div>',
-                                ' <div class="text-item" style="height: ', this.itemHeight ,'px; width:', this.widgetSize.width - 20,'px; font-size: ', this.itemHeight -7 ,'px"> ' +
-                                    '<span> Requested by : ' , build.requestedBy,' </span> ' +
-                                '</div>',
-                                ' <div class="text-item" style="height: ', this.subItemHeight ,'px; width:', this.widgetSize.width - 20,'px; font-size: ', this.subItemHeight -5 ,'px"> ' +
-                                    '<span> Start Date : ' ,build.startDate ?  build.startDate.toFormattedString() : '',' </span> ' +
-                                '</div>',
-                                ' <div class="text-item" style="height: ', this.subItemHeight ,'px; width:', this.widgetSize.width - 20,'px; font-size: ', this.subItemHeight -5 ,'px"> ' +
-                                    '<span> Finish Date : ' , build.finishDate ? build.finishDate.toFormattedString() : '',' </span> ' +
-                                '</div>',
-                             ' </div> ',
-                          ' </li>'].join('');
-
-            this._gridComponent.add_widget(buildEl, size.columns, size.rows, x, y);
-        }
-
         public removeWidget(build : BW.IBuildDefinition) {
             var gridItem = this.getGridItem(build);
 
-            this._gridComponent.remove_widget(gridItem);
+            if(this._gridComponent.widgets.length > 0) {
+                this._gridComponent.remove_widget(gridItem);
+            }
 
             var gridItem = this.getGridItem(build);
             gridItem.remove();
@@ -141,21 +155,69 @@ module BW.Modules.Main.Directives.Grid {
 
         public updateWidget(build : BW.IBuildDefinition) {
             var gridItem = this.getGridItem(build);
+            var prevStatus = gridItem.data('status');
 
-            $("div", gridItem).html(build.displayName);
+            if(prevStatus == build.status) {
+                this.updateWidgetData(gridItem, build);
+                return;
+            }
+
+            gridItem.data('status', build.status);
+            var statusCss = this.cssStatuses[build.status];
+
+            gridItem.removeClass("fade-in");
+            gridItem.addClass("fade-out");
+
+            setTimeout(() => {
+                this.updateCssStatus(gridItem, statusCss, false);
+                this.updateCssStatus(gridItem.find("div:first"), statusCss);
+
+                this.updateWidgetData(gridItem, build);
+
+                gridItem.removeClass("fade-out")
+                gridItem.addClass("fade-in");
+            }, 1000);
+
         }
 
-        private getGridItem(build : BW.IBuildDefinition) {
+        private updateWidgetData(gridItem : JQuery, build : BW.IBuildDefinition) {
+            $("div.header span.text", gridItem).html(build.displayName);
+            $("div.status span.text", gridItem).html(build.statusText);
+            $("div.requested-by span.text", gridItem).html(build.requestedBy);
+            $("div.start-date span.text", gridItem).html(build.startDate.toFormattedString());
+            $("div.finish-date span.text", gridItem).html(build.finishDate.toFormattedString());
+        }
+
+        private updateCssStatus(element : JQuery, statusCss: string, clean = true) {
+
+            if(clean) {
+                element.removeClass();
+            } else {
+
+                this.cssStatuses.forEach(item => {
+                    if(element.hasClass(item)) {
+                        element.removeClass(item);
+                    }
+                });
+            }
+
+            element.addClass(statusCss);
+        }
+
+        private getGridItem(build : BW.IBuildDefinition) : JQuery {
             var selector = ["li[data-id='", build.id, "']"].join('');
             return $(selector, this._$gridsterList);
         }
 
         private destroyGrid() {
-            if (this._gridComponent) {
+            if (!this._gridComponent) return
+
+            if(this._gridComponent.widgets.length > 0) {
+
                 this._gridComponent.remove_all_widgets();
-                this._gridComponent.destroy();
-                this._$gridsterList.empty();
             }
+            this._gridComponent.destroy();
+            this._$gridsterList.empty();
         }
 
         private getWindowSize() : BW.ISize {

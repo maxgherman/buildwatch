@@ -60,6 +60,9 @@ declare module BW {
                          comparer? : (a : BW.IBuildDefinition, b : BW.IBuildDefinition) => boolean,
                          updater? : (a : BW.IBuildDefinition, b : BW.IBuildDefinition) => void) : Array<BW.IBuildDefinition>;
 
+        updateBroken(list : Array<BW.IBuildDefinition>);
+        updateAll(list : Array<BW.IBuildDefinition>);
+
         filter(list : Array<BW.IBuildDefinitionInfo>, predicate? : (a : BW.IBuildDefinitionInfo) => boolean) : Array<BW.IBuildDefinitionInfo>;
         filterDefinitions(list : Array<BW.IBuildDefinition>, predicate? : (a : BW.IBuildDefinition) => boolean) : Array<BW.IBuildDefinition>;
     }
@@ -67,7 +70,7 @@ declare module BW {
     interface INotificationResult<T> {
         data : T;
         success : boolean;
-        error : Error;
+        error? : Error;
     }
 
 
@@ -111,7 +114,6 @@ declare module BW {
         renderGrid(widgetSize : BW.ISize, size : BW.IGridSize, margin : number, builds : Array<BW.IBuildDefinition>);
         removeWidget(build : BW.IBuildDefinition) : void;
         updateWidget(build : BW.IBuildDefinition) : void;
-        buildStatusToCss : (buildStatus : BuildStatus) => string;
         buildClick : (id: number) => void;
     }
 

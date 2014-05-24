@@ -14,30 +14,30 @@ var BW;
                         var body = this.body.bind(this);
 
                         return {
-                            $get: ['$rootScope', 'buildService', body]
+                            $get: ['$rootScope', '$timeout', 'buildService', body]
                         };
                     };
 
-                    BuildServiceWrapper.prototype.body = function ($rootScope, buildService) {
+                    BuildServiceWrapper.prototype.body = function ($rootScope, $timeout, buildService) {
                         var self = this;
 
                         return {
                             statusNotification: function (onData, onError) {
                                 buildService.statusNotification().subscribe(function (states) {
-                                    self.applyScope($rootScope, states, onData);
+                                    self.applyScope($timeout, $rootScope, states, onData);
                                 }, function (error) {
                                     console.error(error.toString());
 
-                                    self.applyScope($rootScope, error, onError);
+                                    self.applyScope($timeout, $rootScope, error, onError);
                                 });
                             },
                             listNotification: function (onData, onError) {
                                 buildService.listNotification().subscribe(function (list) {
-                                    self.applyScope($rootScope, list, onData);
+                                    self.applyScope($timeout, $rootScope, list, onData);
                                 }, function (error) {
                                     console.error(error.toString());
 
-                                    self.applyScope($rootScope, error, onError);
+                                    self.applyScope($timeout, $rootScope, error, onError);
                                 });
                             },
                             filterListNotifications: function (value) {
@@ -46,15 +46,10 @@ var BW;
                         };
                     };
 
-                    BuildServiceWrapper.prototype.applyScope = function ($rootScope, data, action) {
-                        var phase = $rootScope.$$phase;
-                        if (phase == '$apply' || phase == '$digest') {
+                    BuildServiceWrapper.prototype.applyScope = function ($timeout, $rootScope, data, action) {
+                        $timeout(function () {
                             action(data);
-                        } else {
-                            $rootScope.$apply(function () {
-                                action(data);
-                            });
-                        }
+                        });
                     };
                     return BuildServiceWrapper;
                 })();

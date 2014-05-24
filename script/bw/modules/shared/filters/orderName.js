@@ -9,6 +9,9 @@ var BW;
                     function OrderByNameFilter() {
                     }
                     OrderByNameFilter.prototype.execute = function (data, reverse) {
+                        if (!data)
+                            return undefined;
+
                         var result = data.map(function (item) {
                             return item;
                         });

@@ -13,12 +13,12 @@ module BW.Modules.Shared.Services {
             var body = this.body.bind(this);
 
             return {
-               $get : ['$rootScope', 'buildService', body]
+               $get : ['$rootScope', '$timeout', 'buildService', body]
             };
 
         }
 
-        private body($rootScope : ng.IScope, buildService : BW.IBuildService) : BW.IBuildServiceExternal {
+        private body($rootScope : ng.IScope, $timeout,  buildService : BW.IBuildService) : BW.IBuildServiceExternal {
 
             var self = this;
 
@@ -31,13 +31,13 @@ module BW.Modules.Shared.Services {
                     .subscribe(
                         states => {
 
-                           self.applyScope($rootScope, states, onData);
+                           self.applyScope($timeout, $rootScope, states, onData);
                         },
                         error => {
 
                             console.error(error.toString());
 
-                            self.applyScope($rootScope, error, onError);
+                            self.applyScope($timeout, $rootScope, error, onError);
                         }
                     );
                 },
@@ -49,13 +49,13 @@ module BW.Modules.Shared.Services {
                         .subscribe(
                         list => {
 
-                            self.applyScope($rootScope, list, onData);
+                            self.applyScope($timeout, $rootScope, list, onData);
                         },
                         error => {
 
                             console.error(error.toString());
 
-                            self.applyScope($rootScope, error, onError);
+                            self.applyScope($timeout, $rootScope, error, onError);
                         }
                     );
 
@@ -68,17 +68,11 @@ module BW.Modules.Shared.Services {
             }
         }
 
-        private applyScope<R>($rootScope : ng.IScope, data : R, action : (data : R) => void) {
+        private applyScope<R>($timeout, $rootScope : ng.IScope, data : R, action : (data : R) => void) {
 
-            var phase = $rootScope.$$phase;
-            if(phase == '$apply' || phase == '$digest') {
+            $timeout(function() {
                 action(data);
-            } else {
-
-                $rootScope.$apply(() => {
-                    action(data);
-                });
-            }
+            });
         }
     }
 

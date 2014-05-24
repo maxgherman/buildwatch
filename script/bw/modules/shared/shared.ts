@@ -6,6 +6,7 @@
 ///<reference path='./directives/navtab/navtabs' />
 ///<reference path='./directives/navtab/tab' />
 ///<reference path='./directives/checkList' />
+///<reference path='./directives/buildDetails' />
 ///<reference path='./directives/blocker' />
 ///<reference path='./filters/itemName' />
 ///<reference path='./filters/orderName' />
@@ -20,6 +21,8 @@
     mainModule.directive('tab', () => new BW.Modules.Shared.Directives.NavTab.Tab().execute());
 
     mainModule.directive('checkList', () => new BW.Modules.Shared.Directives.CheckList().execute());
+
+    mainModule.directive('buildDetails', () => new BW.Modules.Shared.Directives.BuildDetails().execute());
 
     mainModule.directive('blocker', () => new BW.Modules.Shared.Directives.Blocker().execute());
 

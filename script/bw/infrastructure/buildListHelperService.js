@@ -40,6 +40,18 @@ var BW;
                 return _super.prototype.update.call(this, sourceList, targetList, comparer, updater);
             };
 
+            BuildListHelperService.prototype.updateBroken = function (list) {
+                list.forEach(function (item) {
+                    item.filtered = item.status === 8 /* Failed */ || item.status == 1 /* InProgress */;
+                });
+            };
+
+            BuildListHelperService.prototype.updateAll = function (list) {
+                list.forEach(function (item) {
+                    item.filtered = true;
+                });
+            };
+
             BuildListHelperService.prototype.filter = function (list, predicate) {
                 if (typeof predicate === "undefined") { predicate = this._defaultPredicate; }
                 return _super.prototype.filter.call(this, list, predicate);

@@ -9,6 +9,9 @@ var BW;
                     function ItemName() {
                     }
                     ItemName.prototype.execute = function (data, name) {
+                        if (!data)
+                            return undefined;
+
                         var searchValue = name.toLowerCase();
 
                         return data.filter(function (item) {

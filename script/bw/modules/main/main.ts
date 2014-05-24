@@ -23,8 +23,7 @@
                     new UIGrid($window),
                     new GridRenderService(),
                     buildServiceHelper,
-                    $window)
-                    .execute()
+                    $window).execute()
         }]);
 
 })(angular);

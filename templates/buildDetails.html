@@ -1,0 +1,35 @@
+
+<div class="form-group col-md-12">
+
+    <div class="build-details" data-ng-class="{'show' : build, 'hide' : !build}">
+
+        <div class="row">
+            <span class="field-name">Name</span>
+            <a data-ng-href="{{build.definitionUrl}}" target="_blank">
+                <span class="field" >{{build.displayName}}</span>
+            </a>
+
+        </div>
+
+        <div class="row">
+            <span class="field-name">Status</span>
+            <span class="field" data-ng-class="" >{{build.statusText}}</span>
+        </div>
+
+        <div class="row">
+            <span class="field-name">Requested by</span>
+            <span class="field" >{{build.requestedBy}}</span>
+        </div>
+
+        <div class="row">
+            <span class="field-name">Start date</span>
+            <span class="field">{{build.startDate.toFormattedString()}}</span>
+        </div>
+
+        <div class="row">
+            <span class="field-name">Finish date</span>
+            <span class="field">{{build.finishDate.toFormattedString()}}</span>
+        </div>
+    </div>
+
+</div>

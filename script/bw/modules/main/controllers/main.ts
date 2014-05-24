@@ -3,6 +3,7 @@
 
 'use strict';
 
+
 module BW.Modules.Main.Controllers {
 
     export class MainController {
@@ -15,6 +16,7 @@ module BW.Modules.Main.Controllers {
 
         public currentBuild : BW.IBuildDefinition;
         public definitions : Array<IBuildDefinitionInfo> = null;
+        public buildsNotification : BW.INotificationResult<Array<IBuildDefinition>>;
 
 
         public get currentBuildId() : number {
@@ -24,7 +26,7 @@ module BW.Modules.Main.Controllers {
         public set currentBuildId(value: number) {
             this._currentBuildId = value;
 
-            this.currentBuild = this._listHelperService.filterDefinitions(this._builds, item => item.id === this._currentBuildId)[0];
+            this.updateCurrentBuild();
         }
 
 
@@ -48,6 +50,12 @@ module BW.Modules.Main.Controllers {
             this._trackBroken = value;
 
             this.saveSettings();
+
+            if(value) {
+                this._listHelperService.updateBroken(this._builds);
+            } else {
+                this._listHelperService.updateAll(this._builds);
+            }
         }
 
         public get blocker() : IBlocker {
@@ -82,8 +90,23 @@ module BW.Modules.Main.Controllers {
         private statusNotification(notification : BW.INotificationResult<Array<IBuildDefinition>>) {
 
             if(notification.success) {
-                this.builds =
-                    this._listHelperService.updateDefinition(notification.data, this.builds);
+
+                var result = this._listHelperService.updateDefinition(notification.data, this.builds);
+
+                if(this.trackBroken) {
+
+                    this._listHelperService.updateBroken(result);
+                }
+
+                this._builds = result;
+
+                this.updateCurrentBuild();
+
+                this.buildsNotification = {
+                    data : result,
+                    success :true
+                };
+
             } else {
                 this.blocker.subText = notification.error.message;
             }
@@ -178,6 +201,16 @@ module BW.Modules.Main.Controllers {
                 return filtered.map(item => { return {id : item.id, displayName : item.displayName}});
             });
         }
+
+        private updateCurrentBuild() {
+
+            var builds = this._listHelperService.filterDefinitions(this._builds, item => item.id === this._currentBuildId);
+
+            if(builds.length > 0) {
+                this.currentBuild = builds[0];
+            }
+        }
+
     }
 
 

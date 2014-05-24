@@ -1,3 +1,5 @@
+
+/// <reference path='../../../../../../d.ts/angular.d' />
 /// <reference path='../../../../../../d.ts/bw.d.ts' />
 /// <reference path='../../../../../../d.ts/jquery.d' />
 /// <reference path='../../../../infrastructure/grid/gridRenderService' />
@@ -24,7 +26,9 @@ module BW.Modules.Main.Directives.Grid {
                     totalColumns: '=',
                     builds: '=',
                     margin: '=',
-                    maxItemHeigth : '='
+                    maxItemHeigth : '=',
+                    buildsNotification: "=",
+                    trackBroken : "="
                 },
                 templateUrl: 'templates/grid/grid.html',
                 link: self.link.bind(self)
@@ -55,6 +59,7 @@ module BW.Modules.Main.Directives.Grid {
                 self._gridRenderService.render();
             });
 
+
             $scope.$watch('totalColumns', function(newValue, oldValue) {
                 if (newValue === oldValue) return;
 
@@ -70,10 +75,13 @@ module BW.Modules.Main.Directives.Grid {
 
             $scope.$watch('builds', function(newValue, oldValue) {
 
-                self._gridRenderService.builds = <Array<BW.IBuildDefinition>>self._buildListService.filter(newValue);
-                self._gridRenderService.update(self._buildListService.filter(oldValue));
+                if(angular.equals(newValue, oldValue)) return;
+
+                self._gridRenderService.builds = self._buildListService.filterDefinitions( newValue);
+                self._gridRenderService.update(self._buildListService.filterDefinitions(oldValue));
 
             }, true);
+
 
             self._gridRenderService.render();
         }

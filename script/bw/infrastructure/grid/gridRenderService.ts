@@ -52,7 +52,6 @@ module BW.Infrastructure.Grid {
             this._margin = renderData.margin;
             this._maxItemHeight = renderData.maxItemHeight;
             this._grid = grid;
-            this._grid.buildStatusToCss = this.buildStatusToCss;
         }
 
 
@@ -68,7 +67,7 @@ module BW.Infrastructure.Grid {
 
                 self.renderGrid(widgetSize, gridSize);
 
-            }, 5);
+            });
         }
 
         private getGridSize():BW.IGridSize {
@@ -107,33 +106,18 @@ module BW.Infrastructure.Grid {
             this._grid.renderGrid(widgetSize, gridSize, this._margin, this.builds);
         }
 
-        public update(builds) {
+        public update(oldBuilds) {
 
-            if (this.updateGridForRender(builds)) return;
+            if (this.updateGridForRender(oldBuilds)) return;
 
-            this.updateGridContent(builds);
+            this.updateGridContent();
         }
 
-        private updateGridContent(builds) {
+        private updateGridContent() {
             var self = this;
 
-            builds.filter(prevBuild => {
-
-                var newBuilds = self._builds.filter(newBuild => {
-
-                    return newBuild.id === prevBuild.id;
-                });
-
-                if (newBuilds.length <= 0) {
-
-                    self._grid.removeWidget(prevBuild);
-                } else {
-                    var newBuild = newBuilds[0];
-
-                    if (newBuild.displayName !== prevBuild.displayName) {
-                        self._grid.updateWidget(newBuild);
-                    }
-                }
+            self.builds.forEach(build => {
+                self._grid.updateWidget(build);
             });
         }
 
@@ -141,40 +125,11 @@ module BW.Infrastructure.Grid {
             var self = this;
             var builds = self._builds;
 
-            var added = builds.filter(newBuild => {
+            if(oldBuilds.length === builds.length) return false;
 
-                return oldBuilds.filter(prevBuild => {
-                    return newBuild.id === prevBuild.id;
-                }).length <= 0;
-            });
+            self.render();
+            return true;
 
-            if (added.length > 0) {
-                self.render();
-                return true;
-            }
-
-            return false;
-        }
-
-        private filterBuilds(builds) {
-            return builds.filter(function (build) {
-                return build.isSelected;
-            });
-        }
-
-        private buildStatusToCss(buildStatus : BW.BuildStatus) {
-
-            switch (buildStatus) {
-                case BW.BuildStatus.None : return 'none';
-                case BW.BuildStatus.All : return 'all';
-                case BW.BuildStatus.Failed : return 'failed';
-                case BW.BuildStatus.InProgress : return 'in-progress';
-                case BW.BuildStatus.NotStarted : return 'not-started';
-                case BW.BuildStatus.PartiallySucceeded : return 'partially-succeeded';
-                case BW.BuildStatus.Stopped: return 'stopped';
-                case BW.BuildStatus.Succeeded : return 'succeeded';
-                default : return '';
-            }
         }
     }
 }
