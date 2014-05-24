@@ -13,6 +13,13 @@ var BW;
                 return list.every(predicate);
             };
 
+            ListHelperService.prototype.any = function (list, predicate) {
+                if (!list || list.length <= 0)
+                    return false;
+
+                return list.some(predicate);
+            };
+
             ListHelperService.prototype.filter = function (list, predicate) {
                 if (!list)
                     return undefined;

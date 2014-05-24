@@ -81,10 +81,13 @@
             </div>
         </div>
 
-        <check-list check-name="filtered"
-                    display-name="displayName"
-                    items="ctrl.builds"
-                    check-changed="ctrl.saveSettings()"></check-list>
+        <div data-ng-class="{'show' : !ctrl.trackBroken, 'hide' : ctrl.trackBroken}">
+
+            <check-list check-name="filtered"
+                        display-name="displayName"
+                        items="ctrl.builds"
+                        check-changed="ctrl.saveSettings()"></check-list>
+        </div>
 
     </tab>
     <tab header-icon="glyphicon glyphicon-record" name="BUILD DETAILS" >

@@ -42,7 +42,9 @@ declare module BW {
                   comparer : (a : R, b : R) => boolean,
                   update: (newEl : R, oldEl : R) => void) : Array<R>;
 
-        all<R>(list : Array<R>, predicate : (a : R) => boolean);
+        all<R>(list : Array<R>, predicate : (a : R) => boolean) : boolean;
+
+        any<R>(list : Array<R>, predicate : (a : R) => boolean) : boolean;
 
         filter<R>(list : Array<R>, predicate : (a : R) => boolean) : Array<R>;
     }

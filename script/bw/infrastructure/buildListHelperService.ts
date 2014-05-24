@@ -37,11 +37,21 @@ module BW.Infrastructure {
         }
 
         public updateBroken(list : Array<BW.IBuildDefinition>)  {
-            list.forEach(item => {
 
-                item.filtered = item.status === BW.BuildStatus.Failed ||
-                    item.status == BW.BuildStatus.InProgress;
-            });
+            var exists = super.any(list, item =>
+                item.status === BW.BuildStatus.Failed ||
+                item.status == BW.BuildStatus.InProgress);
+
+            if(exists) {
+
+                list.forEach(item => {
+
+                    item.filtered = item.status === BW.BuildStatus.Failed ||
+                        item.status == BW.BuildStatus.InProgress;
+                });
+            } else {
+                list.forEach(item => item.filtered = true);
+            }
         }
 
         public updateAll(list : Array<BW.IBuildDefinition>)  {

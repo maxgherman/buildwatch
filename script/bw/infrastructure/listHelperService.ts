@@ -7,11 +7,19 @@ module BW.Infrastructure {
 
     export class ListHelperService implements BW.IListHelperService {
 
-        public all<R>(list : Array<R>, predicate : (a : R) => boolean) {
+        public all<R>(list : Array<R>, predicate : (a : R) => boolean) : boolean {
 
             if(!list || list.length <= 0) return false;
 
             return list.every(predicate);
+
+        }
+
+        public any<R>(list : Array<R>, predicate : (a : R) => boolean) : boolean {
+
+            if(!list || list.length <= 0) return false;
+
+            return list.some(predicate);
 
         }
 

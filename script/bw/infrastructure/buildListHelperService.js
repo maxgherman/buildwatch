@@ -41,9 +41,19 @@ var BW;
             };
 
             BuildListHelperService.prototype.updateBroken = function (list) {
-                list.forEach(function (item) {
-                    item.filtered = item.status === 8 /* Failed */ || item.status == 1 /* InProgress */;
+                var exists = _super.prototype.any.call(this, list, function (item) {
+                    return item.status === 8 /* Failed */ || item.status == 1 /* InProgress */;
                 });
+
+                if (exists) {
+                    list.forEach(function (item) {
+                        item.filtered = item.status === 8 /* Failed */ || item.status == 1 /* InProgress */;
+                    });
+                } else {
+                    list.forEach(function (item) {
+                        return item.filtered = true;
+                    });
+                }
             };
 
             BuildListHelperService.prototype.updateAll = function (list) {
