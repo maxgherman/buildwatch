@@ -38,6 +38,27 @@ module BW.Infrastructure {
         private _lastSentDefinitions = [];
         private _lastSentBuilds = [];
 
+        public connectNotification() : Rx.IObservable<BW.INotificationResult<boolean>>{
+            return Rx.Observable.create(observer => {
+
+                observer.onNext({
+                    data : true,
+                    success : true,
+                    error : undefined
+                });
+            });
+        }
+
+        public disconnectNotification() : Rx.IObservable<BW.INotificationResult<boolean>>{
+            return Rx.Observable.create(observer => {
+
+                observer.onNext({
+                    data : true,
+                    success : true,
+                    error : undefined
+                });
+            });
+        }
 
         public statusNotification() : Rx.IObservable<BW.INotificationResult<Array<BW.IBuildDefinition>>> {
 
@@ -86,10 +107,7 @@ module BW.Infrastructure {
 
         public setListNotificationFilter(definitions : Array<BW.IBuildDefinitionInfo>) : void {
 
-
-            var filtered =  definitions.filter(item => item.filtered);
-
-            this._lastSentBuilds = this._definitions.filter(item => filtered.some(fItem => fItem.id == item.id))
+            this._lastSentBuilds = this._definitions.filter(item => definitions.some(fItem => fItem.id == item.id))
                 .map(item => this.copyDefinitionData(item));
 
         }

@@ -11,9 +11,16 @@
             localStorageServiceProvider.setPrefix('BW');
         }]);
 
-    mainModule.factory('buildService', function () {
-        return new BW.Infrastructure.BuildService();
-    });
+    var Infrastructure = BW.Infrastructure;
+    if (Infrastructure.SignalRBuildService.isInUse) {
+        mainModule.factory('buildService', function () {
+            return new Infrastructure.SignalRBuildService();
+        });
+    } else {
+        mainModule.factory('buildService', function () {
+            return new BW.Infrastructure.BuildService();
+        });
+    }
 
     mainModule.provider('buildServiceWrapper', function () {
         return new BW.Modules.Shared.Services.BuildServiceWrapper().execute();

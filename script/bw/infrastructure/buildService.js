@@ -30,6 +30,26 @@ var BW;
                 this._lastSentDefinitions = [];
                 this._lastSentBuilds = [];
             }
+            BuildService.prototype.connectNotification = function () {
+                return Rx.Observable.create(function (observer) {
+                    observer.onNext({
+                        data: true,
+                        success: true,
+                        error: undefined
+                    });
+                });
+            };
+
+            BuildService.prototype.disconnectNotification = function () {
+                return Rx.Observable.create(function (observer) {
+                    observer.onNext({
+                        data: true,
+                        success: true,
+                        error: undefined
+                    });
+                });
+            };
+
             BuildService.prototype.statusNotification = function () {
                 var _this = this;
                 return Rx.Observable.interval(5000).map(function (value, index, source) {
@@ -74,12 +94,8 @@ var BW;
 
             BuildService.prototype.setListNotificationFilter = function (definitions) {
                 var _this = this;
-                var filtered = definitions.filter(function (item) {
-                    return item.filtered;
-                });
-
                 this._lastSentBuilds = this._definitions.filter(function (item) {
-                    return filtered.some(function (fItem) {
+                    return definitions.some(function (fItem) {
                         return fItem.id == item.id;
                     });
                 }).map(function (item) {

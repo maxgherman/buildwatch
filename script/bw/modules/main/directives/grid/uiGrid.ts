@@ -101,6 +101,20 @@ module BW.Modules.Main.Directives.Grid {
                     self.addWidget(build, { rows: 1, columns: 1}, j, i);
                 }
             }
+
+            setInterval(() => {
+
+                $("div.in-progress").css('-webkit-background-size', this.widgetSize.height + 'px');
+
+                $(".gridster > ul > li").click(function(e) {
+
+                    if(self.buildClick) {
+                        var id = $(this).data('id');
+                        self.buildClick(id);
+                    }
+
+                });
+            }, 1000);
         }
 
         private addWidget(build : BW.IBuildDefinition, size : BW.IGridSize, x : number, y : number) {
@@ -129,17 +143,6 @@ module BW.Modules.Main.Directives.Grid {
                 ' </li>'].join('');
 
             var element = this._gridComponent.add_widget(buildEl, size.columns, size.rows, x, y);
-
-            $("div.in-progress", element).css('-webkit-background-size', this.widgetSize.height + 'px');
-
-            $(element).click(function(e) {
-
-                if(self.buildClick) {
-                    var id = $(this).data('id');
-                    self.buildClick(id);
-                }
-
-            });
         }
 
         public removeWidget(build : BW.IBuildDefinition) {

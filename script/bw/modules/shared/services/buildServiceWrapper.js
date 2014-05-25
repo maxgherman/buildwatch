@@ -22,9 +22,27 @@ var BW;
                         var self = this;
 
                         return {
+                            connectNotification: function (onData, onError) {
+                                buildService.connectNotification().subscribe(function (data) {
+                                    self.applyScope($timeout, $rootScope, data, onData);
+                                }, function (error) {
+                                    console.error(error.toString());
+
+                                    self.applyScope($timeout, $rootScope, error, onError);
+                                });
+                            },
+                            disconnectNotification: function (onData, onError) {
+                                buildService.disconnectNotification().subscribe(function (data) {
+                                    self.applyScope($timeout, $rootScope, data, onData);
+                                }, function (error) {
+                                    console.error(error.toString());
+
+                                    self.applyScope($timeout, $rootScope, error, onError);
+                                });
+                            },
                             statusNotification: function (onData, onError) {
-                                buildService.statusNotification().subscribe(function (states) {
-                                    self.applyScope($timeout, $rootScope, states, onData);
+                                buildService.statusNotification().subscribe(function (data) {
+                                    self.applyScope($timeout, $rootScope, data, onData);
                                 }, function (error) {
                                     console.error(error.toString());
 
@@ -32,8 +50,8 @@ var BW;
                                 });
                             },
                             listNotification: function (onData, onError) {
-                                buildService.listNotification().subscribe(function (list) {
-                                    self.applyScope($timeout, $rootScope, list, onData);
+                                buildService.listNotification().subscribe(function (data) {
+                                    self.applyScope($timeout, $rootScope, data, onData);
                                 }, function (error) {
                                     console.error(error.toString());
 

@@ -77,12 +77,20 @@ declare module BW {
 
 
     interface IBuildService {
+        connectNotification() : Rx.IObservable<BW.INotificationResult<boolean>>;
+        disconnectNotification() : Rx.IObservable<BW.INotificationResult<boolean>>;
         statusNotification() : Rx.IObservable<INotificationResult<Array<IBuildDefinition>>>;
         listNotification() : Rx.IObservable<INotificationResult<Array<IBuildDefinitionInfo>>>;
         setListNotificationFilter(definitions : Array<BW.IBuildDefinitionInfo>) : void;
     }
 
     interface IBuildServiceExternal {
+        connectNotification(onData : (result : INotificationResult<Array<BW.IBuildDefinition>>) => void,
+                            onError : (error : Error) => void);
+
+        disconnectNotification(onData : (result : INotificationResult<Array<BW.IBuildDefinition>>) => void,
+                               onError : (error : Error) => void);
+
         statusNotification(onData : (result : INotificationResult<Array<BW.IBuildDefinition>>) => void,
                            onError : (error : Error) => void) : void;
 

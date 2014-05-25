@@ -79,18 +79,46 @@ module BW.Modules.Main.Controllers {
 
             this.restoreSettings();
 
-            this.setStatusNotifications();
-            this.getDefinitionNotifications();
+            this.setConnectionNotification();
         }
 
         public submitFilter() {
-            this._buildServiceWrapper.filterListNotifications(this.definitions);
+
+            var data = this._listHelperService.filter(this.definitions);
+
+            this._buildServiceWrapper.filterListNotifications(data);
+        }
+
+        private connectionNotification(notification : BW.INotificationResult<boolean>) {
+
+             if(notification.success) {
+                 this.getDefinitionNotifications();
+                 this.setStatusNotifications();
+                 this.setDisconnectNotification();
+             }
+
+            if(!notification.success) {
+
+                this._blocker.show(true);
+                this.blocker.subText = notification.error.message;
+            }
+        }
+
+        private disconnectNotification(notification : BW.INotificationResult<boolean>) {
+
+            this._blocker.show(true);
+
+            if(notification.error) {
+                this.blocker.subText = notification.error.message;
+            }
         }
 
         private statusNotification(notification : BW.INotificationResult<Array<IBuildDefinition>>) {
 
-            if(notification.success) {
+            if(!notification.success) {
 
+                this.blocker.subText = notification.error.message;
+            } else {
                 var result = this._listHelperService.updateDefinition(notification.data, this.builds);
 
                 if(this.trackBroken) {
@@ -106,9 +134,6 @@ module BW.Modules.Main.Controllers {
                     data : result,
                     success :true
                 };
-
-            } else {
-                this.blocker.subText = notification.error.message;
             }
 
             this._blocker.show(!notification.success);
@@ -116,16 +141,14 @@ module BW.Modules.Main.Controllers {
 
         private listNotification(notification : BW.INotificationResult<Array<IBuildDefinitionInfo>>) {
 
-            if(notification.success) {
-                this.definitions =
-                    this._listHelperService.updateDefinitionInfo(notification.data, this.definitions);
-            } else {
+            if(!notification.success) {
+
                 this.blocker.subText = notification.error.message;
+                this._blocker.show(true);
+                return;
             }
 
-            if(!notification.success) {
-                this._blocker.show(true);
-            }
+            this.definitions = this._listHelperService.updateDefinitionInfo(notification.data, this.definitions);
         }
 
         private statusNotificationError(error : Error) {
@@ -146,6 +169,35 @@ module BW.Modules.Main.Controllers {
             this._blocker.show(true);
 
             this.getDefinitionNotifications();
+        }
+
+        private connectionNotificationError() {
+            var message = 'Error establishing connection';
+            this._blocker.subText = message;
+
+            this._blocker.show(true);
+
+            this.setConnectionNotification();
+        }
+
+        private disconnectNotificationError() {
+            var message = 'Error establishing connection';
+            this._blocker.subText = message;
+
+            this._blocker.show(true);
+
+            this.setDisconnectNotification();
+        }
+
+        private setConnectionNotification() {
+            this._buildServiceWrapper.connectNotification(this.connectionNotification.bind(this),
+                this.connectionNotificationError.bind(this));
+        }
+
+
+        private setDisconnectNotification() {
+            this._buildServiceWrapper.connectNotification(this.disconnectNotification.bind(this),
+                this.disconnectNotificationError.bind(this));
         }
 
         private setStatusNotifications() {

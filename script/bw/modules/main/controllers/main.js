@@ -17,8 +17,7 @@ var BW;
 
                         this.restoreSettings();
 
-                        this.setStatusNotifications();
-                        this.getDefinitionNotifications();
+                        this.setConnectionNotification();
                     }
                     Object.defineProperty(MainController.prototype, "currentBuildId", {
                         get: function () {
@@ -91,11 +90,36 @@ var BW;
 
 
                     MainController.prototype.submitFilter = function () {
-                        this._buildServiceWrapper.filterListNotifications(this.definitions);
+                        var data = this._listHelperService.filter(this.definitions);
+
+                        this._buildServiceWrapper.filterListNotifications(data);
+                    };
+
+                    MainController.prototype.connectionNotification = function (notification) {
+                        if (notification.success) {
+                            this.getDefinitionNotifications();
+                            this.setStatusNotifications();
+                            this.setDisconnectNotification();
+                        }
+
+                        if (!notification.success) {
+                            this._blocker.show(true);
+                            this.blocker.subText = notification.error.message;
+                        }
+                    };
+
+                    MainController.prototype.disconnectNotification = function (notification) {
+                        this._blocker.show(true);
+
+                        if (notification.error) {
+                            this.blocker.subText = notification.error.message;
+                        }
                     };
 
                     MainController.prototype.statusNotification = function (notification) {
-                        if (notification.success) {
+                        if (!notification.success) {
+                            this.blocker.subText = notification.error.message;
+                        } else {
                             var result = this._listHelperService.updateDefinition(notification.data, this.builds);
 
                             if (this.trackBroken) {
@@ -110,23 +134,19 @@ var BW;
                                 data: result,
                                 success: true
                             };
-                        } else {
-                            this.blocker.subText = notification.error.message;
                         }
 
                         this._blocker.show(!notification.success);
                     };
 
                     MainController.prototype.listNotification = function (notification) {
-                        if (notification.success) {
-                            this.definitions = this._listHelperService.updateDefinitionInfo(notification.data, this.definitions);
-                        } else {
+                        if (!notification.success) {
                             this.blocker.subText = notification.error.message;
+                            this._blocker.show(true);
+                            return;
                         }
 
-                        if (!notification.success) {
-                            this._blocker.show(true);
-                        }
+                        this.definitions = this._listHelperService.updateDefinitionInfo(notification.data, this.definitions);
                     };
 
                     MainController.prototype.statusNotificationError = function (error) {
@@ -145,6 +165,32 @@ var BW;
                         this._blocker.show(true);
 
                         this.getDefinitionNotifications();
+                    };
+
+                    MainController.prototype.connectionNotificationError = function () {
+                        var message = 'Error establishing connection';
+                        this._blocker.subText = message;
+
+                        this._blocker.show(true);
+
+                        this.setConnectionNotification();
+                    };
+
+                    MainController.prototype.disconnectNotificationError = function () {
+                        var message = 'Error establishing connection';
+                        this._blocker.subText = message;
+
+                        this._blocker.show(true);
+
+                        this.setDisconnectNotification();
+                    };
+
+                    MainController.prototype.setConnectionNotification = function () {
+                        this._buildServiceWrapper.connectNotification(this.connectionNotification.bind(this), this.connectionNotificationError.bind(this));
+                    };
+
+                    MainController.prototype.setDisconnectNotification = function () {
+                        this._buildServiceWrapper.connectNotification(this.disconnectNotification.bind(this), this.disconnectNotificationError.bind(this));
                     };
 
                     MainController.prototype.setStatusNotifications = function () {

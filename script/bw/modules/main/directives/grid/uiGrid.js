@@ -46,6 +46,7 @@ var BW;
                         };
 
                         UIGrid.prototype.renderGrid = function (widgetSize, size, margin, builds) {
+                            var _this = this;
                             var self = this;
                             self.widgetSize = widgetSize;
                             self.headerHeight = Math.min(widgetSize.height / 4, this.maxWidgetHeaderSize);
@@ -70,6 +71,17 @@ var BW;
                                     self.addWidget(build, { rows: 1, columns: 1 }, j, i);
                                 }
                             }
+
+                            setInterval(function () {
+                                $("div.in-progress").css('-webkit-background-size', _this.widgetSize.height + 'px');
+
+                                $(".gridster > ul > li").click(function (e) {
+                                    if (self.buildClick) {
+                                        var id = $(this).data('id');
+                                        self.buildClick(id);
+                                    }
+                                });
+                            }, 1000);
                         };
 
                         UIGrid.prototype.addWidget = function (build, size, x, y) {
@@ -92,15 +104,6 @@ var BW;
                                 ' </li>'].join('');
 
                             var element = this._gridComponent.add_widget(buildEl, size.columns, size.rows, x, y);
-
-                            $("div.in-progress", element).css('-webkit-background-size', this.widgetSize.height + 'px');
-
-                            $(element).click(function (e) {
-                                if (self.buildClick) {
-                                    var id = $(this).data('id');
-                                    self.buildClick(id);
-                                }
-                            });
                         };
 
                         UIGrid.prototype.removeWidget = function (build) {

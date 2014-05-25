@@ -24,14 +24,45 @@ module BW.Modules.Shared.Services {
 
             return  <BW.IBuildServiceExternal>{
 
+                connectNotification(onData : (result : INotificationResult<Array<BW.IBuildDefinition>>) => void,
+                                    onError : (error : Error) => void) {
+                    buildService.connectNotification()
+                     .subscribe(
+                        data => {
+                            self.applyScope($timeout, $rootScope, data, onData);
+                        },
+                        error => {
+                            console.error(error.toString());
+
+                            self.applyScope($timeout, $rootScope, error, onError);
+                        });
+                },
+
+                disconnectNotification(onData : (result : INotificationResult<Array<BW.IBuildDefinition>>) => void,
+                                       onError : (error : Error) => void) {
+
+                    buildService.disconnectNotification()
+                        .subscribe(
+                        data => {
+                            self.applyScope($timeout, $rootScope, data, onData);
+                        },
+                        error => {
+                            console.error(error.toString());
+
+                            self.applyScope($timeout, $rootScope, error, onError);
+                        });
+
+                },
+
+
                 statusNotification(onData : (result : BW.INotificationResult<Array<BW.IBuildDefinitionInfo>>) => void,
                                    onError : (error : Error) => void) : void {
 
                     buildService.statusNotification()
                     .subscribe(
-                        states => {
+                        data => {
 
-                           self.applyScope($timeout, $rootScope, states, onData);
+                           self.applyScope($timeout, $rootScope, data, onData);
                         },
                         error => {
 
@@ -47,9 +78,9 @@ module BW.Modules.Shared.Services {
 
                     buildService.listNotification()
                         .subscribe(
-                        list => {
+                        data => {
 
-                            self.applyScope($timeout, $rootScope, list, onData);
+                            self.applyScope($timeout, $rootScope, data, onData);
                         },
                         error => {
 
