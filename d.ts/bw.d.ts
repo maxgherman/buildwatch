@@ -20,7 +20,7 @@ declare module BW {
     }
 
     interface IBuildDefinitionInfo {
-        id : number;
+        id : string;
         displayName : string;
         filtered? : boolean;
     }

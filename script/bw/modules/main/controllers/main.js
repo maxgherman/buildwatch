@@ -17,6 +17,9 @@ var BW;
 
                         this.restoreSettings();
 
+                        this.getDefinitionNotifications();
+                        this.setStatusNotifications();
+                        this.setDisconnectNotification();
                         this.setConnectionNotification();
                     }
                     Object.defineProperty(MainController.prototype, "currentBuildId", {
@@ -96,12 +99,6 @@ var BW;
                     };
 
                     MainController.prototype.connectionNotification = function (notification) {
-                        if (notification.success) {
-                            this.getDefinitionNotifications();
-                            this.setStatusNotifications();
-                            this.setDisconnectNotification();
-                        }
-
                         if (!notification.success) {
                             this._blocker.show(true);
                             this.blocker.subText = notification.error.message;
@@ -253,7 +250,7 @@ var BW;
                     MainController.prototype.updateCurrentBuild = function () {
                         var _this = this;
                         var builds = this._listHelperService.filterDefinitions(this._builds, function (item) {
-                            return item.id === _this._currentBuildId;
+                            return item.id == _this._currentBuildId;
                         });
 
                         if (builds.length > 0) {

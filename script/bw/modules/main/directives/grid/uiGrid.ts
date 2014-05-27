@@ -134,10 +134,10 @@ module BW.Modules.Main.Directives.Grid {
                     '<span> Requested by : </span> <span class="text"> ' , build.requestedBy,' </span> ' +
                     '</div>',
                 ' <div class="text-item start-date" style="height: ', this.subItemHeight ,'px; width:', this.widgetSize.width - 20,'px; font-size: ', this.subItemHeight -5 ,'px"> ' +
-                    '<span> Start Date : </span> <span class="text"> ' ,build.startDate ?  build.startDate.toFormattedString() : '',' </span> ' +
+                    '<span> Start Date : </span> <span class="text"> ' ,build.startDate ?  build.startDate.toLocaleString() : '',' </span> ' +
                     '</div>',
                 ' <div class="text-item finish-date" style="height: ', this.subItemHeight ,'px; width:', this.widgetSize.width - 20,'px; font-size: ', this.subItemHeight -5 ,'px"> ' +
-                    '<span> Finish Date : </span> <span class="text"> ' , build.finishDate ? build.finishDate.toFormattedString() : '',' </span> ' +
+                    '<span> Finish Date : </span> <span class="text"> ' , build.finishDate ? build.finishDate.toLocaleString() : '',' </span> ' +
                     '</div>',
                 ' </div> ',
                 ' </li>'].join('');
@@ -187,8 +187,8 @@ module BW.Modules.Main.Directives.Grid {
             $("div.header span.text", gridItem).html(build.displayName);
             $("div.status span.text", gridItem).html(build.statusText);
             $("div.requested-by span.text", gridItem).html(build.requestedBy);
-            $("div.start-date span.text", gridItem).html(build.startDate.toFormattedString());
-            $("div.finish-date span.text", gridItem).html(build.finishDate.toFormattedString());
+            $("div.start-date span.text", gridItem).html(build.startDate.toLocaleString());
+            $("div.finish-date span.text", gridItem).html(build.finishDate ? build.finishDate.toLocaleString() : '');
         }
 
         private updateCssStatus(element : JQuery, statusCss: string, clean = true) {

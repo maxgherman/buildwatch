@@ -34,8 +34,6 @@
 
     mainModule.factory('listHelperService', () => new BW.Infrastructure.ListHelperService());
 
-    mainModule.factory('dateService', () => new BW.Infrastructure.DateService());
-
     mainModule.factory('storageHelperService', ['localStorageService',
         _ => new BW.Infrastructure.StorageHelperService(_)]);
 

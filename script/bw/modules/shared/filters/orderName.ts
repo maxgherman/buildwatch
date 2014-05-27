@@ -19,7 +19,7 @@
 
                  if (a && b &&
                      a.displayName && b.displayName) {
-                     return a.displayName > b.displayName ? 1 : (a.displayName > b.displayName ? -1 : 0);
+                     return a.displayName > b.displayName ? 1 : (a.displayName < b.displayName ? -1 : 0);
                  }
 
                  if (a &&

@@ -49,10 +49,6 @@
         return new BW.Infrastructure.ListHelperService();
     });
 
-    mainModule.factory('dateService', function () {
-        return new BW.Infrastructure.DateService();
-    });
-
     mainModule.factory('storageHelperService', [
         'localStorageService',
         function (_) {

@@ -7,8 +7,8 @@
     var mainModule = ang.module('main', ['builds']);
 
     mainModule.controller('MainCtrl', [
-        'buildServiceWrapper', 'buildListHelperService', 'storageHelperService', 'dateService',
-        function (x, y, z, d) {
+        'buildServiceWrapper', 'buildListHelperService', 'storageHelperService',
+        function (x, y, z) {
             return new BW.Modules.Main.Controllers.MainController(x, y, z);
         }]);
 

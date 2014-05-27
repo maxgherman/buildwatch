@@ -8,7 +8,7 @@ var BW;
         var SignalRBuildService = (function () {
             function SignalRBuildService() {
 
-                var tfsHub = $.connection.tfsHub;
+                this.tfsHub = $.connection.tfsHub;
             };
 
 
@@ -41,9 +41,11 @@ var BW;
 
             SignalRBuildService.prototype.disconnectNotification = function () {
 
+                var self = this;
+
                 return Rx.Observable.create(function (observer) {
 
-                    tfsHub.disconnect(function() {
+                    self.tfsHub.disconnect(function() {
 
                         observer.onNext({
                             data: true,
@@ -56,9 +58,17 @@ var BW;
 
             SignalRBuildService.prototype.statusNotification = function () {
 
+                var self = this;
+
                 return Rx.Observable.create(function (observer) {
 
-                    tfsHub.client.updateBuildStatuses = function (data) {
+                    self.tfsHub.client.updateBuildStatuses = function (data) {
+
+                        data.forEach(function(item) {
+                           item.startDate = new Date(item.startDate);
+                           item.finishDate = item.finishDate ? new Date(item.startDate) : undefined;
+                        });
+
 
                         observer.onNext({
                             data: data,
@@ -72,22 +82,23 @@ var BW;
 
             SignalRBuildService.prototype.listNotification = function () {
 
+                var self = this;
+
                 return Rx.Observable.create(function (observer) {
 
-                    var data =  tfsHub.server.getBuildDefinitions();
-
-                    observer.onNext({
-                        data: data,
-                        success: true,
-                        error: undefined
-                    });
-
+                    self.tfsHub.server.getBuildDefinitions = function(data) {
+                        observer.onNext({
+                            data: data,
+                            success: true,
+                            error: undefined
+                        });
+                    }
                 });
             };
 
 
             SignalRBuildService.prototype.setListNotificationFilter = function (definitions) {
-                var data = definitions.map(function(item) { return item.id; })
+                var data = definitions.map(function(item) { return item.id; });
 
                 tfsHub.server.saveFilter(data);
 

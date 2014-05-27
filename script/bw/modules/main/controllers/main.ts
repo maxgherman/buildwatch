@@ -12,18 +12,18 @@ module BW.Modules.Main.Controllers {
         private _trackBroken : boolean;
         private _blocker : IBlocker;
         private _builds : Array<IBuildDefinition> = null;
-        private _currentBuildId : number;
+        private _currentBuildId : string;
 
         public currentBuild : BW.IBuildDefinition;
         public definitions : Array<IBuildDefinitionInfo> = null;
         public buildsNotification : BW.INotificationResult<Array<IBuildDefinition>>;
 
 
-        public get currentBuildId() : number {
+        public get currentBuildId() : string {
             return this._currentBuildId;
         }
 
-        public set currentBuildId(value: number) {
+        public set currentBuildId(value: string) {
             this._currentBuildId = value;
 
             this.updateCurrentBuild();
@@ -79,6 +79,9 @@ module BW.Modules.Main.Controllers {
 
             this.restoreSettings();
 
+            this.getDefinitionNotifications();
+            this.setStatusNotifications();
+            this.setDisconnectNotification();
             this.setConnectionNotification();
         }
 
@@ -90,12 +93,6 @@ module BW.Modules.Main.Controllers {
         }
 
         private connectionNotification(notification : BW.INotificationResult<boolean>) {
-
-             if(notification.success) {
-                 this.getDefinitionNotifications();
-                 this.setStatusNotifications();
-                 this.setDisconnectNotification();
-             }
 
             if(!notification.success) {
 
@@ -256,7 +253,7 @@ module BW.Modules.Main.Controllers {
 
         private updateCurrentBuild() {
 
-            var builds = this._listHelperService.filterDefinitions(this._builds, item => item.id === this._currentBuildId);
+            var builds = this._listHelperService.filterDefinitions(this._builds, item => item.id == this._currentBuildId);
 
             if(builds.length > 0) {
                 this.currentBuild = builds[0];

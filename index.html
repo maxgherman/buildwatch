@@ -29,7 +29,7 @@
     <script type="text/javascript" src="./script/bw/infrastructure/buildListHelperService.js"></script>
     <script type="text/javascript" src="./script/bw/infrastructure/grid/gridRenderService.js"></script>
     <script type="text/javascript" src="./script/bw/infrastructure/storageService.js"></script>
-    <script type="text/javascript" src="./script/bw/infrastructure/dateService.js"></script>
+
 
     <script type="text/javascript" src="./script/bw/modules/shared/services/buildServiceWrapper.js"></script>
     <script type="text/javascript" src="./script/bw/modules/shared/filters/itemName.js"></script>
@@ -85,7 +85,7 @@
             </div>
         </div>
 
-        <div data-ng-class="{'show' : !ctrl.trackBroken, 'hide' : ctrl.trackBroken}">
+        <div data-ng-class="{'show' : !ctrl.trackBroken, 'hide' : ctrl.trackBroken}" class="check-list">
 
             <check-list check-name="filtered"
                         display-name="displayName"
