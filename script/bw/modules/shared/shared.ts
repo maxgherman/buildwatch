@@ -1,8 +1,6 @@
 
 ///<reference path='../../../../d.ts/angular.d' />
-///<reference path='../../infrastructure/grid/gridRenderService' />
 ///<reference path='../../infrastructure/listHelperService' />
-///<reference path='../../infrastructure/dateService' />
 ///<reference path='./directives/navtab/navtabs' />
 ///<reference path='./directives/navtab/tab' />
 ///<reference path='./directives/checkList' />
@@ -11,6 +9,7 @@
 ///<reference path='./filters/itemName' />
 ///<reference path='./filters/orderName' />
 ///<reference path='../../infrastructure/storageService' />
+///<reference path='../../infrastructure/buildStatusConverter' />
 
 (function(ang) {
 
@@ -30,12 +29,15 @@
 
     mainModule.filter('orderByName', () => new BW.Modules.Shared.Filters.OrderByNameFilter().execute);
 
-    mainModule.factory('gridRenderService',  () => BW.Infrastructure.Grid.GridRenderService);
-
     mainModule.factory('listHelperService', () => new BW.Infrastructure.ListHelperService());
 
     mainModule.factory('storageHelperService', ['localStorageService',
         _ => new BW.Infrastructure.StorageHelperService(_)]);
+
+
+    mainModule.factory('buildStatusConverter', ()=> new BW.Infrastructure.BuildStatusConverter());
+
+
 
 
 })(angular);

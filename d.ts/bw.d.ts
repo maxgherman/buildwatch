@@ -118,25 +118,6 @@ declare module BW {
         rows : number;
     }
 
-    interface IUIGrid {
-        load(parent : HTMLElement) : void;
-        resetFrameSize() : BW.ISize;
-        renderGrid(widgetSize : BW.ISize, size : BW.IGridSize, margin : number, builds : Array<BW.IBuildDefinition>);
-        removeWidget(build : BW.IBuildDefinition) : void;
-        updateWidget(build : BW.IBuildDefinition) : void;
-        buildClick : (id: number) => void;
-    }
-
-    interface IGridRenderService {
-        columns : number;
-        builds : Array<BW.IBuildDefinition>;
-        margin : number;
-        maxItemHeight : number;
-        load(renderData: IGreedRenderData, grid:BW.IUIGrid) : void;
-        render();
-        update(builds);
-    }
-
     interface ITab {
         id : number;
         name : string;

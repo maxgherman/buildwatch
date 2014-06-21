@@ -1,7 +1,5 @@
 ///<reference path='../../../../d.ts/angular.d' />
-///<reference path='../../infrastructure/grid/gridRenderService' />
 ///<reference path='../../infrastructure/listHelperService' />
-///<reference path='../../infrastructure/dateService' />
 ///<reference path='./directives/navtab/navtabs' />
 ///<reference path='./directives/navtab/tab' />
 ///<reference path='./directives/checkList' />
@@ -10,6 +8,7 @@
 ///<reference path='./filters/itemName' />
 ///<reference path='./filters/orderName' />
 ///<reference path='../../infrastructure/storageService' />
+///<reference path='../../infrastructure/buildStatusConverter' />
 (function (ang) {
     var mainModule = ang.module('shared', ['LocalStorageModule']);
 
@@ -41,10 +40,6 @@
         return new BW.Modules.Shared.Filters.OrderByNameFilter().execute;
     });
 
-    mainModule.factory('gridRenderService', function () {
-        return BW.Infrastructure.Grid.GridRenderService;
-    });
-
     mainModule.factory('listHelperService', function () {
         return new BW.Infrastructure.ListHelperService();
     });
@@ -54,5 +49,9 @@
         function (_) {
             return new BW.Infrastructure.StorageHelperService(_);
         }]);
+
+    mainModule.factory('buildStatusConverter', function () {
+        return new BW.Infrastructure.BuildStatusConverter();
+    });
 })(angular);
 //# sourceMappingURL=shared.js.map

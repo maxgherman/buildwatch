@@ -1,0 +1,39 @@
+<div class='dashboard dashboardjs'>
+    <div class="gridster gridsterjs">
+        <ul data-ng-class="{'show' : show, 'hide' :!show}">
+
+            <li data-ng-style="widgetFrameStyle"
+                data-ng-repeat="build in builds"
+                class="{{statusCss(build.status)}}"
+                data-ng-class="{'fade-out' : statusChangedBuilds[build.id] }"
+                data-id="{{build.id}}">
+
+                <div data-ng-style="widgetStyle"
+                     class="{{statusCss(build.status)}}" >
+
+                    <div class="text-item header" data-ng-style="header1Style" >
+                        <span>{{build.displayName}}</span>
+                    </div>
+
+                    <div class="text-item status" data-ng-style="header2Style" >
+                        <span> Status : </span> <span class="text"> {{build.statusText}}</span>
+                    </div>
+
+                    <div class="text-item requested-by" data-ng-style="header2Style" >
+                        <span> Requested by : </span> <span class="text"> {{build.requestedBy}}</span>
+                    </div>
+
+                    <div class="text-item start-date" data-ng-style="header3Style" >
+                        <span> Start Date : </span> <span class="text">{{build.startDate ?  build.startDate.toLocaleString() : ''}} </span>
+                    </div>
+
+                    <div class="text-item finish-date" data-ng-style="header3Style" >
+                        <span> Finish Date : </span> <span class="text"> {{build.finishDate ? build.finishDate.toLocaleString() : ''}}</span>
+                    </div>
+
+                </div>
+           </li>
+
+        </ul>
+    </div>
+</div>

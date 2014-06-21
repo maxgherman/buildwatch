@@ -2,11 +2,10 @@
 <html data-ng-app='main'>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>Build Watch</title>
 
 
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href='./content/jquery.gridster.css' />
     <link rel="stylesheet" type="text/css" href='./content/navbar.css' />
     <link rel="stylesheet" type="text/css" href='./content/main.css' />
     <link rel="stylesheet" type="text/css" href='./content/grid.css' />
@@ -14,8 +13,7 @@
 
     <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.js"></script>
-    <script type="text/javascript" src="./script/vendor/jquery.gridster.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.17/angular.js"></script>
     <script type="text/javascript" src="./script/vendor/rx.lite.js"></script>
     <script type="text/javascript" src="./script/vendor/angular-local-storage.js"></script>
 
@@ -25,11 +23,9 @@
     <script type="text/javascript" src="./script/bw/infrastructure/buildService.js"></script>
     <script type="text/javascript" src="./script/bw/infrastructure/signalRBuildService.js"></script>
 
-
     <script type="text/javascript" src="./script/bw/infrastructure/buildListHelperService.js"></script>
-    <script type="text/javascript" src="./script/bw/infrastructure/grid/gridRenderService.js"></script>
     <script type="text/javascript" src="./script/bw/infrastructure/storageService.js"></script>
-
+    <script type="text/javascript" src="./script/bw/infrastructure/buildStatusConverter.js"></script>
 
     <script type="text/javascript" src="./script/bw/modules/shared/services/buildServiceWrapper.js"></script>
     <script type="text/javascript" src="./script/bw/modules/shared/filters/itemName.js"></script>
@@ -47,9 +43,9 @@
     <script type="text/javascript" src="./script/bw/modules/shared/directives/checkList.js"></script>
     <script type="text/javascript" src="./script/bw/modules/shared/directives/blocker.js"></script>
 
+    <script type="text/javascript" src="./script/bw/modules/main/directives/gridFlow.js"></script>
 
-    <script type="text/javascript" src="./script/bw/modules/main/directives/grid/uiGrid.js"></script>
-    <script type="text/javascript" src="./script/bw/modules/main/directives/grid/screenGrid.js"></script>
+
     <script type="text/javascript" src="./script/bw/modules/main/controllers/main.js"></script>
 
     <script type="text/javascript" src="./script/bw/modules/main/main.js"></script>
@@ -102,14 +98,14 @@
 
 </navtabs>
 
+<grid-flow total-columns="ctrl.totalColumns"
+           builds="ctrl.builds"
+           margin="7"
+           item-height="400">
 
-<screen-grid
-        current-build-id="ctrl.currentBuildId"
-        total-columns="ctrl.totalColumns"
-        builds="ctrl.builds"
-        track-broken="ctrl.trackBroken"
-        margin="7"
-        max-item-heigth="400" ></screen-grid>
+</grid-flow>
+
+
 
 <blocker text="ctrl.blocker.text"
          sub-text="ctrl.blocker.subText"
